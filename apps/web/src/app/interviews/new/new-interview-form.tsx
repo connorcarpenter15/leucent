@@ -67,11 +67,7 @@ export function NewInterviewForm() {
         label="Initial AI constraints"
         hint="One per line. Injected into every AI prompt during the session. You can add or remove constraints live from the interviewer console."
       >
-        <Textarea
-          rows={5}
-          value={constraints}
-          onChange={(e) => setConstraints(e.target.value)}
-        />
+        <Textarea rows={5} value={constraints} onChange={(e) => setConstraints(e.target.value)} />
       </Field>
       {error && (
         <p className="rounded-md border border-red-700/60 bg-red-900/30 px-3 py-2 text-sm text-red-200">

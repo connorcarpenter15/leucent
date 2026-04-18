@@ -292,9 +292,7 @@ mod tests {
             code_map.insert(&mut txn, "README.md", "# hi");
         }
         let mut files = room.snapshot_code().await;
-        files.sort_by(|a, b| {
-            a["path"].as_str().unwrap().cmp(b["path"].as_str().unwrap())
-        });
+        files.sort_by(|a, b| a["path"].as_str().unwrap().cmp(b["path"].as_str().unwrap()));
         assert_eq!(files.len(), 2);
         assert_eq!(files[0]["path"], "README.md");
         assert_eq!(files[0]["contents"], "# hi");

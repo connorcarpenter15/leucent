@@ -18,12 +18,7 @@
         },
         "actor": {
           "type": "string",
-          "enum": [
-            "candidate",
-            "interviewer",
-            "system",
-            "ai"
-          ]
+          "enum": ["candidate", "interviewer", "system", "ai"]
         },
         "payload": {
           "type": "object",
@@ -36,20 +31,11 @@
               "minimum": 0
             }
           },
-          "required": [
-            "path",
-            "bytesChanged"
-          ],
+          "required": ["path", "bytesChanged"],
           "additionalProperties": false
         }
       },
-      "required": [
-        "kind",
-        "interviewId",
-        "ts",
-        "actor",
-        "payload"
-      ],
+      "required": ["kind", "interviewId", "ts", "actor", "payload"],
       "additionalProperties": false
     }
   },

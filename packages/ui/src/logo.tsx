@@ -19,12 +19,7 @@ const sizeMap = {
  * headers), the medium variant in the global header, and the large variant on
  * marketing pages.
  */
-export function Logo({
-  size = 'md',
-  showWordmark = true,
-  className,
-  ...rest
-}: LogoProps) {
+export function Logo({ size = 'md', showWordmark = true, className, ...rest }: LogoProps) {
   const s = sizeMap[size];
   return (
     <span className={cn('inline-flex items-center gap-2', className)} {...rest}>
@@ -37,10 +32,7 @@ export function Logo({
         )}
       >
         <span
-          className={cn(
-            'rounded-full bg-white/90 shadow-[0_0_8px_rgba(255,255,255,0.65)]',
-            s.dot,
-          )}
+          className={cn('rounded-full bg-white/90 shadow-[0_0_8px_rgba(255,255,255,0.65)]', s.dot)}
         />
       </span>
       {showWordmark && (

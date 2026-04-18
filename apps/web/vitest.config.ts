@@ -11,8 +11,6 @@ export default defineConfig({
     // jose's WebCrypto path expects the host Uint8Array. jsdom installs its
     // own Uint8Array, which crashes with "payload must be an instance of
     // Uint8Array". Lib helpers run in plain Node so they hit the right one.
-    environmentMatchGlobs: [
-      ['test/lib/**', 'node'],
-    ],
+    environmentMatchGlobs: [['test/lib/**', 'node']],
   },
 });

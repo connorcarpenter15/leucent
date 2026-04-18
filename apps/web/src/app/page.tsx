@@ -1,13 +1,5 @@
 import Link from 'next/link';
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Container,
-} from '@bleucent/ui';
+import { Badge, Button, Card, CardBody, CardHeader, CardTitle, Container } from '@bleucent/ui';
 import { SiteShell } from '@/components/SiteShell';
 
 const FEATURES = [
@@ -90,10 +82,9 @@ function Hero() {
             </span>
           </h1>
           <p className="max-w-2xl text-lg text-surface-300">
-            Bleucent gives candidates a real IDE, a system-design canvas, and an AI
-            co-pilot — and gives interviewers a live console with perfect playback after
-            the fact. Run the loop you actually want, not the one a shared Google Doc
-            forces on you.
+            Bleucent gives candidates a real IDE, a system-design canvas, and an AI co-pilot — and
+            gives interviewers a live console with perfect playback after the fact. Run the loop you
+            actually want, not the one a shared Google Doc forces on you.
           </p>
           <div className="flex flex-wrap items-center gap-3">
             <Link href="/signup">
@@ -170,13 +161,13 @@ function HeroPreview() {
                 Walk me through your topo_sort implementation.
               </div>
               <div className="rounded-md border border-accent-700/50 bg-accent-500/10 p-2 text-surface-100">
-                Kahn&apos;s algorithm — pop nodes with indegree 0, decrement
-                neighbors, repeat. O(V+E) and detects cycles via residual count.
+                Kahn&apos;s algorithm — pop nodes with indegree 0, decrement neighbors, repeat.
+                O(V+E) and detects cycles via residual count.
               </div>
             </div>
             <div className="mt-auto border-t border-surface-800 bg-surface-925 px-4 py-2 text-[11px] text-surface-500">
-              <span className="text-accent-300">interviewer</span> added constraint:
-              &quot;no third-party graph libraries&quot;
+              <span className="text-accent-300">interviewer</span> added constraint: &quot;no
+              third-party graph libraries&quot;
             </div>
           </div>
         </div>
@@ -195,8 +186,8 @@ function Features() {
             Everything an interview loop needs, nothing it doesn&apos;t.
           </h2>
           <p className="mt-3 text-surface-400">
-            Built around a single shared CRDT room per interview, with everything else —
-            AI, sandbox, telemetry — orbiting that source of truth.
+            Built around a single shared CRDT room per interview, with everything else — AI,
+            sandbox, telemetry — orbiting that source of truth.
           </p>
         </div>
 
@@ -226,9 +217,8 @@ function HowItWorks() {
             Three surfaces, one source of truth.
           </h2>
           <p className="mt-3 text-surface-400">
-            A single Yjs room per interview powers the candidate workspace, the
-            interviewer console, and replay. The Rust realtime server is the only
-            thing that talks to S3.
+            A single Yjs room per interview powers the candidate workspace, the interviewer console,
+            and replay. The Rust realtime server is the only thing that talks to S3.
           </p>
         </div>
 
@@ -260,10 +250,10 @@ function Security() {
             Isolated by construction.
           </h2>
           <p className="mt-3 text-surface-400">
-            Every interview runs in its own hardened sandbox container with no network
-            by default, an explicit egress allowlist, CPU/memory/PID caps, and a
-            read-only root filesystem. The candidate&apos;s database is a per-interview
-            Neon branch, blown away when the session ends.
+            Every interview runs in its own hardened sandbox container with no network by default,
+            an explicit egress allowlist, CPU/memory/PID caps, and a read-only root filesystem. The
+            candidate&apos;s database is a per-interview Neon branch, blown away when the session
+            ends.
           </p>
         </div>
         <div className="grid gap-3">
@@ -299,8 +289,8 @@ function CallToAction() {
               Run your next loop on Bleucent.
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-surface-300">
-              Spin up an organization in under a minute, send your first candidate a
-              join link, and stop pretending a shared Google Doc is an interview tool.
+              Spin up an organization in under a minute, send your first candidate a join link, and
+              stop pretending a shared Google Doc is an interview tool.
             </p>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
               <Link href="/signup">

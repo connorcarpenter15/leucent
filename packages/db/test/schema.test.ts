@@ -36,12 +36,7 @@ describe('Drizzle schema', () => {
   });
 
   it('declares the interview_status enum with the expected values', () => {
-    expect(interviewStatus.enumValues).toEqual([
-      'scheduled',
-      'live',
-      'completed',
-      'expired',
-    ]);
+    expect(interviewStatus.enumValues).toEqual(['scheduled', 'live', 'completed', 'expired']);
   });
 
   it('models interview columns the rest of the system relies on', () => {
@@ -83,13 +78,7 @@ describe('Drizzle schema', () => {
 
   it('models RAG chunks with embeddings + interview scoping', () => {
     const cols = getTableColumns(aiContextChunk);
-    for (const required of [
-      'interviewId',
-      'sourcePath',
-      'chunkIndex',
-      'contents',
-      'embedding',
-    ]) {
+    for (const required of ['interviewId', 'sourcePath', 'chunkIndex', 'contents', 'embedding']) {
       expect(cols, `ai_context_chunk.${required}`).toHaveProperty(required);
     }
   });

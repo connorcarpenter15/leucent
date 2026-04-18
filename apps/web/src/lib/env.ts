@@ -39,7 +39,8 @@ export function env(): Env {
       parsed.error.flatten().fieldErrors,
     );
     cached = {
-      DATABASE_URL: process.env.DATABASE_URL ?? 'postgres://bleucent:bleucent@localhost:5432/bleucent',
+      DATABASE_URL:
+        process.env.DATABASE_URL ?? 'postgres://bleucent:bleucent@localhost:5432/bleucent',
       BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET ?? 'dev-secret-change-me-32-bytes-long!',
       BETTER_AUTH_URL: process.env.BETTER_AUTH_URL ?? 'http://localhost:3000',
       REALTIME_SERVER_URL: process.env.REALTIME_SERVER_URL ?? 'http://localhost:4000',
@@ -47,8 +48,7 @@ export function env(): Env {
       REALTIME_JWT_SECRET: process.env.REALTIME_JWT_SECRET ?? 'dev-jwt-secret-change-me-please!',
       AI_ORCHESTRATOR_URL: process.env.AI_ORCHESTRATOR_URL ?? 'http://localhost:5000',
       SANDBOX_PROVISIONER_URL: process.env.SANDBOX_PROVISIONER_URL ?? 'http://localhost:6000',
-      NEXT_PUBLIC_REALTIME_WS_URL:
-        process.env.NEXT_PUBLIC_REALTIME_WS_URL ?? 'ws://localhost:4000',
+      NEXT_PUBLIC_REALTIME_WS_URL: process.env.NEXT_PUBLIC_REALTIME_WS_URL ?? 'ws://localhost:4000',
       S3_ENDPOINT: process.env.S3_ENDPOINT,
       S3_REGION: process.env.S3_REGION ?? 'us-east-1',
       S3_BUCKET: process.env.S3_BUCKET,

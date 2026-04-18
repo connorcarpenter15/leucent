@@ -41,9 +41,7 @@ describe('InterviewSnapshot', () => {
       interviewId: '11111111-2222-4333-8444-555555555555',
       capturedAt: '2026-04-18T12:00:00.000Z',
       canvas: {
-        nodes: [
-          { id: 'n1', type: 'service', position: { x: 0, y: 0 }, data: {} },
-        ],
+        nodes: [{ id: 'n1', type: 'service', position: { x: 0, y: 0 }, data: {} }],
         edges: [{ id: 'e1', source: 'n1', target: 'n1' }],
       },
       code: [{ path: 'src/index.ts', contents: 'console.log(1)' }],

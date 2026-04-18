@@ -9,11 +9,11 @@ services:
       POSTGRES_PASSWORD: bleucent
       POSTGRES_DB: bleucent
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U bleucent -d bleucent"]
+      test: ['CMD-SHELL', 'pg_isready -U bleucent -d bleucent']
       interval: 5s
       timeout: 3s
       retries: 20
@@ -26,12 +26,12 @@ services:
       MINIO_ROOT_USER: bleucent
       MINIO_ROOT_PASSWORD: bleucentminio
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - '9000:9000'
+      - '9001:9001'
     volumes:
       - minio_data:/data
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:9000/minio/health/live']
       interval: 5s
       timeout: 3s
       retries: 20
@@ -53,10 +53,10 @@ services:
     restart: unless-stopped
     privileged: true
     environment:
-      DOCKER_TLS_CERTDIR: ""
-    command: ["dockerd", "--host=tcp://0.0.0.0:2375", "--tls=false"]
+      DOCKER_TLS_CERTDIR: ''
+    command: ['dockerd', '--host=tcp://0.0.0.0:2375', '--tls=false']
     ports:
-      - "2375:2375"
+      - '2375:2375'
     volumes:
       - dind_data:/var/lib/docker
 

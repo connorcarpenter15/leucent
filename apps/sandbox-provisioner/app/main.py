@@ -153,9 +153,10 @@ async def read_fs(sandbox_id: str, path: str) -> dict[str, str]:
     rec = _require(sandbox_id)
     safe_path = _safe_path(path)
     try:
-        return {"path": safe_path, "content": await read_workspace_file(rec.container_id, safe_path)}
+        content = await read_workspace_file(rec.container_id, safe_path)
     except FileNotFoundError as exc:
         raise HTTPException(status_code=404, detail="not found") from exc
+    return {"path": safe_path, "content": content}
 
 
 @app.put(

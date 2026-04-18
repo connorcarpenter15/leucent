@@ -23,9 +23,7 @@ afterAll(() => {
 
 describe('mintRealtimeToken / verifyRealtimeToken', () => {
   it('round-trips claims through HS256 with iss + aud baked in', async () => {
-    const { mintRealtimeToken, verifyRealtimeToken } = await import(
-      '../../src/lib/realtime-token'
-    );
+    const { mintRealtimeToken, verifyRealtimeToken } = await import('../../src/lib/realtime-token');
     const interviewId = '11111111-2222-4333-8444-555555555555';
     const token = await mintRealtimeToken({
       subject: 'user_123',

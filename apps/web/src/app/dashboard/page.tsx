@@ -1,15 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { eq, desc } from 'drizzle-orm';
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Container,
-} from '@bleucent/ui';
+import { Badge, Button, Card, CardBody, CardHeader, CardTitle, Container } from '@bleucent/ui';
 import { schema } from '@bleucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
@@ -46,9 +38,7 @@ export default async function DashboardPage() {
             </h1>
             <p className="mt-1 text-sm text-surface-400">
               Signed in as <span className="text-surface-200">{session.user.email}</span>
-              {orgId
-                ? ''
-                : ' — finish creating an organization to schedule interviews.'}
+              {orgId ? '' : ' — finish creating an organization to schedule interviews.'}
             </p>
           </div>
           <Link href="/interviews/new">
@@ -86,8 +76,7 @@ export default async function DashboardPage() {
                 <CardBody className="text-sm text-surface-300">
                   <div className="flex flex-col gap-1">
                     <span>
-                      Candidate:{' '}
-                      <span className="text-surface-100">{iv.candidateName}</span>
+                      Candidate: <span className="text-surface-100">{iv.candidateName}</span>
                     </span>
                     <span className="text-surface-400">{iv.candidateEmail}</span>
                     <span className="text-xs text-surface-500">

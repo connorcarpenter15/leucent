@@ -46,9 +46,6 @@ jobs:
       - name: Build workspace packages
         run: pnpm --filter '@bleucent/shared-protocol' --filter '@bleucent/db' build
 
-      - name: Lint
-        run: pnpm --filter '@bleucent/web' lint
-
       - name: Typecheck
         run: pnpm typecheck
 

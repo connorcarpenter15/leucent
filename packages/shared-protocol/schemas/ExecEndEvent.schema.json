@@ -18,12 +18,7 @@
         },
         "actor": {
           "type": "string",
-          "enum": [
-            "candidate",
-            "interviewer",
-            "system",
-            "ai"
-          ]
+          "enum": ["candidate", "interviewer", "system", "ai"]
         },
         "payload": {
           "type": "object",
@@ -46,23 +41,11 @@
               "type": "string"
             }
           },
-          "required": [
-            "execId",
-            "exitCode",
-            "durationMs",
-            "stdoutTail",
-            "stderrTail"
-          ],
+          "required": ["execId", "exitCode", "durationMs", "stdoutTail", "stderrTail"],
           "additionalProperties": false
         }
       },
-      "required": [
-        "kind",
-        "interviewId",
-        "ts",
-        "actor",
-        "payload"
-      ],
+      "required": ["kind", "interviewId", "ts", "actor", "payload"],
       "additionalProperties": false
     }
   },

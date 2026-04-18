@@ -8,13 +8,7 @@ import { AiChatPanel } from '@/components/AiChatPanel';
 import { useRealtimeToken } from '@/lib/use-realtime-token';
 import { useEventsChannel, useYjsRoom } from '@/lib/yjs-provider';
 
-export function CandidateWorkspace({
-  interviewId,
-  title,
-}: {
-  interviewId: string;
-  title: string;
-}) {
+export function CandidateWorkspace({ interviewId, title }: { interviewId: string; title: string }) {
   const { token, error: tokenError } = useRealtimeToken(interviewId);
   const { doc, provider, synced } = useYjsRoom(interviewId, token);
 
@@ -44,20 +38,8 @@ export function CandidateWorkspace({
     [sendEvent],
   );
 
-  const status = tokenError
-    ? 'auth error'
-    : !token
-      ? 'connecting'
-      : synced
-        ? 'synced'
-        : 'syncing';
-  const statusTone = tokenError
-    ? 'danger'
-    : !token
-      ? 'warning'
-      : synced
-        ? 'success'
-        : 'warning';
+  const status = tokenError ? 'auth error' : !token ? 'connecting' : synced ? 'synced' : 'syncing';
+  const statusTone = tokenError ? 'danger' : !token ? 'warning' : synced ? 'success' : 'warning';
 
   return (
     <div className="flex h-screen flex-col bg-surface-950 text-surface-100">

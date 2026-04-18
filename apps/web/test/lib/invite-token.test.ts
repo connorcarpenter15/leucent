@@ -37,9 +37,7 @@ describe('generateInviteToken', () => {
   });
 
   it('returns a unique token on each call', () => {
-    const tokens = new Set(
-      Array.from({ length: 50 }, () => generateInviteToken().token),
-    );
+    const tokens = new Set(Array.from({ length: 50 }, () => generateInviteToken().token));
     expect(tokens.size).toBe(50);
   });
 });

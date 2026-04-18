@@ -18,12 +18,7 @@
         },
         "actor": {
           "type": "string",
-          "enum": [
-            "candidate",
-            "interviewer",
-            "system",
-            "ai"
-          ]
+          "enum": ["candidate", "interviewer", "system", "ai"]
         },
         "payload": {
           "type": "object",
@@ -33,35 +28,18 @@
             },
             "role": {
               "type": "string",
-              "enum": [
-                "candidate",
-                "interviewer"
-              ]
+              "enum": ["candidate", "interviewer"]
             },
             "state": {
               "type": "string",
-              "enum": [
-                "joined",
-                "left",
-                "heartbeat"
-              ]
+              "enum": ["joined", "left", "heartbeat"]
             }
           },
-          "required": [
-            "clientId",
-            "role",
-            "state"
-          ],
+          "required": ["clientId", "role", "state"],
           "additionalProperties": false
         }
       },
-      "required": [
-        "kind",
-        "interviewId",
-        "ts",
-        "actor",
-        "payload"
-      ],
+      "required": ["kind", "interviewId", "ts", "actor", "payload"],
       "additionalProperties": false
     }
   },

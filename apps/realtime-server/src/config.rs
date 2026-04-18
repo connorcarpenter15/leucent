@@ -19,10 +19,10 @@ pub struct Config {
 impl Config {
     pub fn from_env() -> Result<Self> {
         let bind_addr = env::var("BIND_ADDR").unwrap_or_else(|_| "0.0.0.0:4000".into());
-        let jwt_secret = env::var("REALTIME_JWT_SECRET")
-            .context("REALTIME_JWT_SECRET is required")?;
-        let internal_token = env::var("REALTIME_INTERNAL_TOKEN")
-            .context("REALTIME_INTERNAL_TOKEN is required")?;
+        let jwt_secret =
+            env::var("REALTIME_JWT_SECRET").context("REALTIME_JWT_SECRET is required")?;
+        let internal_token =
+            env::var("REALTIME_INTERNAL_TOKEN").context("REALTIME_INTERNAL_TOKEN is required")?;
         let database_url = env::var("DATABASE_URL").context("DATABASE_URL is required")?;
         let s3_bucket = env::var("S3_BUCKET").ok();
         let s3_region = env::var("S3_REGION").unwrap_or_else(|_| "us-east-1".into());

@@ -79,9 +79,7 @@ export function SiteFooter({
                     <a
                       href={link.href}
                       className="text-surface-300 no-underline transition-colors hover:text-surface-50"
-                      {...(link.external
-                        ? { target: '_blank', rel: 'noopener noreferrer' }
-                        : {})}
+                      {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
                     >
                       {link.label}
                     </a>

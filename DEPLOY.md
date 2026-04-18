@@ -14,14 +14,14 @@ level. This document is the click-by-click walkthrough.
 
 You will need accounts and CLIs for:
 
-| Tool        | Purpose                                                     |
-| ----------- | ----------------------------------------------------------- |
-| GitHub      | Hosts the repo. Vercel + Railway both pull from here.       |
-| Vercel      | Runs `apps/web` (Next.js).                                  |
-| Railway     | Runs the three backend services + Docker host.              |
-| Neon        | Managed Postgres. Per-interview branches.                   |
-| Cloudflare R2 _or_ AWS S3 | Stores replay JSONL logs.                     |
-| OpenAI / Anthropic        | LLM provider for the orchestrator.            |
+| Tool                      | Purpose                                               |
+| ------------------------- | ----------------------------------------------------- |
+| GitHub                    | Hosts the repo. Vercel + Railway both pull from here. |
+| Vercel                    | Runs `apps/web` (Next.js).                            |
+| Railway                   | Runs the three backend services + Docker host.        |
+| Neon                      | Managed Postgres. Per-interview branches.             |
+| Cloudflare R2 _or_ AWS S3 | Stores replay JSONL logs.                             |
+| OpenAI / Anthropic        | LLM provider for the orchestrator.                    |
 
 Install the CLIs once so the rest of this document is copy-pasteable:
 
@@ -82,8 +82,7 @@ Either Cloudflare R2 (recommended — egress-free) or AWS S3.
 
 Two secrets are shared across the web app, the realtime server, the AI
 orchestrator, and the sandbox provisioner. Generate them once and reuse the
-exact same value everywhere — anything else and inter-service calls will
-401.
+exact same value everywhere — anything else and inter-service calls will 401.
 
 ```bash
 node -e "console.log('REALTIME_JWT_SECRET=' + require('crypto').randomBytes(32).toString('base64url'))"
@@ -116,11 +115,11 @@ Or via the dashboard: https://railway.app/new → **Deploy from GitHub repo**
 
 Repeat this three times, once per service:
 
-| Railway service name    | Source path                      | Type   |
-| ----------------------- | -------------------------------- | ------ |
-| `realtime`              | `apps/realtime-server`           | Docker |
-| `ai-orchestrator`       | `apps/ai-orchestrator`           | Docker |
-| `sandbox-provisioner`   | `apps/sandbox-provisioner`       | Docker |
+| Railway service name  | Source path                | Type   |
+| --------------------- | -------------------------- | ------ |
+| `realtime`            | `apps/realtime-server`     | Docker |
+| `ai-orchestrator`     | `apps/ai-orchestrator`     | Docker |
+| `sandbox-provisioner` | `apps/sandbox-provisioner` | Docker |
 
 In the dashboard:
 
@@ -228,18 +227,19 @@ Or via dashboard: https://vercel.com/new → **Import Git Repository** → pick
 
 Critical project settings:
 
-| Setting                | Value                                            |
-| ---------------------- | ------------------------------------------------ |
-| Framework preset       | **Next.js**                                      |
-| Root directory         | `apps/web`                                       |
-| Build command          | _leave blank_ (uses `vercel.json`)               |
-| Install command        | _leave blank_ (uses `vercel.json`)               |
-| Output directory       | _leave blank_                                    |
-| Node version           | 20.x                                             |
+| Setting          | Value                              |
+| ---------------- | ---------------------------------- |
+| Framework preset | **Next.js**                        |
+| Root directory   | `apps/web`                         |
+| Build command    | _leave blank_ (uses `vercel.json`) |
+| Install command  | _leave blank_ (uses `vercel.json`) |
+| Output directory | _leave blank_                      |
+| Node version     | 20.x                               |
 
 `apps/web/vercel.json` already does the right `cd ../.. && pnpm install`
-+ `pnpm --filter @bleucent/web build` dance, so do not override these
-fields manually.
+
+- `pnpm --filter @bleucent/web build` dance, so do not override these
+  fields manually.
 
 ### 4b. Set environment variables
 
@@ -339,11 +339,11 @@ roll out automatically.
 
 ## 7. Rollback
 
-| Surface | How                                                           |
-| ------- | ------------------------------------------------------------- |
+| Surface | How                                                             |
+| ------- | --------------------------------------------------------------- |
 | Vercel  | **Deployments → ⋯ → Promote previous deployment to Production** |
-| Railway | Per service: **Deployments → previous → Redeploy**            |
-| Neon    | **Branches → restore from earlier point-in-time** (~30s)      |
+| Railway | Per service: **Deployments → previous → Redeploy**              |
+| Neon    | **Branches → restore from earlier point-in-time** (~30s)        |
 
 Realtime clients automatically reconnect on the rollback because
 `y-websocket` does exponential backoff — interviewees only see a half-second

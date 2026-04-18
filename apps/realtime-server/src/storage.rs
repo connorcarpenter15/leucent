@@ -16,9 +16,10 @@ pub struct ReplayStore {
 impl ReplayStore {
     pub async fn new(cfg: &Config) -> Self {
         let bucket = cfg.s3_bucket.clone();
-        let client = if let (Some(key), Some(secret)) =
-            (cfg.s3_access_key_id.clone(), cfg.s3_secret_access_key.clone())
-        {
+        let client = if let (Some(key), Some(secret)) = (
+            cfg.s3_access_key_id.clone(),
+            cfg.s3_secret_access_key.clone(),
+        ) {
             let creds = Credentials::new(key, secret, None, None, "bleucent");
             let conf_loader = aws_config::defaults(aws_config::BehaviorVersion::latest())
                 .region(Region::new(cfg.s3_region.clone()))

@@ -1,12 +1,5 @@
 import { redirect } from 'next/navigation';
-import {
-  Badge,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Container,
-} from '@bleucent/ui';
+import { Badge, Card, CardBody, CardHeader, CardTitle, Container } from '@bleucent/ui';
 import { SiteShell } from '@/components/SiteShell';
 import { getSession } from '@/lib/session';
 import { NewInterviewForm } from './new-interview-form';
@@ -27,8 +20,8 @@ export default async function NewInterviewPage() {
               New interview
             </h1>
             <p className="mt-1 text-sm text-surface-400">
-              Bleucent will provision a Neon branch and mint a single-use candidate
-              join link as soon as you submit.
+              Bleucent will provision a Neon branch and mint a single-use candidate join link as
+              soon as you submit.
             </p>
           </div>
         </div>

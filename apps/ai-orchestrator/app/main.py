@@ -12,8 +12,8 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from datetime import datetime, timezone
-from typing import AsyncIterator
+from collections.abc import AsyncIterator
+from datetime import UTC, datetime
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -150,7 +150,7 @@ async def ai_stream(req: StreamRequest):
     return EventSourceResponse(
         event_source(),
         headers={
-            "X-Bleucent-Stream-Started": datetime.now(timezone.utc).isoformat(),
+            "X-Bleucent-Stream-Started": datetime.now(UTC).isoformat(),
         },
     )
 

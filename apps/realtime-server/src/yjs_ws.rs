@@ -81,11 +81,7 @@ async fn compute_initial_sync_frame(room: &Arc<Room>) -> Vec<u8> {
     encode_sync_step_1(&sv)
 }
 
-async fn handle_incoming(
-    room: &Arc<Room>,
-    conn_id: u64,
-    bytes: &[u8],
-) -> Result<Option<Vec<u8>>> {
+async fn handle_incoming(room: &Arc<Room>, conn_id: u64, bytes: &[u8]) -> Result<Option<Vec<u8>>> {
     let mut decoder = DecoderV1::from(bytes);
     let msg_type = decoder.read_var::<u64>()?;
 

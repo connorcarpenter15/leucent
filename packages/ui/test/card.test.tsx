@@ -1,13 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it } from 'vitest';
-import {
-  Card,
-  CardBody,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '../src/card';
+import { Card, CardBody, CardDescription, CardFooter, CardHeader, CardTitle } from '../src/card';
 
 describe('Card', () => {
   it('renders with the default tone', () => {

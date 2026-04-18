@@ -1,11 +1,4 @@
-import {
-  Badge,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Container,
-} from '@bleucent/ui';
+import { Badge, Card, CardBody, CardHeader, CardTitle, Container } from '@bleucent/ui';
 import { SiteShell } from '@/components/SiteShell';
 import { SignupForm } from './signup-form';
 
@@ -25,8 +18,8 @@ export default function SignupPage() {
               Spin up an organization in under a minute.
             </h1>
             <p className="mt-3 max-w-md text-surface-400">
-              You&apos;ll get a dashboard, an invite-link generator, and a fresh Neon
-              branch per interview the moment you create one.
+              You&apos;ll get a dashboard, an invite-link generator, and a fresh Neon branch per
+              interview the moment you create one.
             </p>
             <ul className="mt-8 flex flex-col gap-3 text-sm text-surface-300">
               {[

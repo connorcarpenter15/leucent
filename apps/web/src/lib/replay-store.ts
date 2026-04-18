@@ -32,9 +32,7 @@ export async function fetchReplay(key: string): Promise<ReplayEvent[]> {
   const client = getClient();
   if (!client) return [];
   const e = env();
-  const res = await client.send(
-    new GetObjectCommand({ Bucket: e.S3_BUCKET, Key: key }),
-  );
+  const res = await client.send(new GetObjectCommand({ Bucket: e.S3_BUCKET, Key: key }));
   const body = await res.Body?.transformToString('utf-8');
   if (!body) return [];
   const events: ReplayEvent[] = [];

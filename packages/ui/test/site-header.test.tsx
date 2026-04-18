@@ -30,9 +30,7 @@ describe('SiteHeader', () => {
   });
 
   it('hides nav links when variant=minimal', () => {
-    render(
-      <SiteHeader variant="minimal" links={[{ href: '/a', label: 'A' }]} />,
-    );
+    render(<SiteHeader variant="minimal" links={[{ href: '/a', label: 'A' }]} />);
     expect(screen.queryByRole('link', { name: 'A' })).toBeNull();
   });
 

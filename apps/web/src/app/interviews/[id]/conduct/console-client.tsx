@@ -184,13 +184,7 @@ export function InterviewerConsole({
     }
   }
 
-  const connTone = tokenError
-    ? 'danger'
-    : !token
-      ? 'warning'
-      : synced
-        ? 'success'
-        : 'warning';
+  const connTone = tokenError ? 'danger' : !token ? 'warning' : synced ? 'success' : 'warning';
   const connLabel = tokenError
     ? 'auth error'
     : !token
@@ -198,8 +192,7 @@ export function InterviewerConsole({
       : synced
         ? 'mirroring'
         : 'syncing';
-  const statusTone =
-    status === 'live' ? 'success' : status === 'completed' ? 'neutral' : 'info';
+  const statusTone = status === 'live' ? 'success' : status === 'completed' ? 'neutral' : 'info';
 
   return (
     <div className="flex h-screen flex-col bg-surface-950 text-surface-100">
@@ -284,7 +277,10 @@ function ActionLog({ entries }: { entries: LogEntry[] }) {
       {entries.length === 0 && <p className="p-2 text-surface-500">Waiting for activity…</p>}
       <ul className="space-y-1">
         {entries.map((e) => (
-          <li key={e.id} className="rounded-md border border-surface-800 bg-surface-900/60 px-2 py-1">
+          <li
+            key={e.id}
+            className="rounded-md border border-surface-800 bg-surface-900/60 px-2 py-1"
+          >
             <div className="flex items-center justify-between text-[10px] text-surface-500">
               <span>{new Date(e.ts).toLocaleTimeString()}</span>
               <span>
@@ -309,9 +305,7 @@ function ExecPanel({ runs }: { runs: Record<string, ExecRun> }) {
           <div className="flex items-center justify-between text-[10px] text-surface-400">
             <code className="text-surface-100">{r.command}</code>
             <span>
-              {r.exitCode !== undefined
-                ? `exit ${r.exitCode} · ${r.durationMs}ms`
-                : 'running…'}
+              {r.exitCode !== undefined ? `exit ${r.exitCode} · ${r.durationMs}ms` : 'running…'}
             </span>
           </div>
           {r.stdout && <pre className="mt-1 whitespace-pre-wrap text-surface-200">{r.stdout}</pre>}

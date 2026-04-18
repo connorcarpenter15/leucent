@@ -51,7 +51,9 @@ pub async fn run_idle_gc(state: AppState) {
     loop {
         tokio::time::sleep(interval).await;
         for id in state.rooms.iter_ids() {
-            let Some(room) = state.rooms.get(&id) else { continue };
+            let Some(room) = state.rooms.get(&id) else {
+                continue;
+            };
             if room.is_idle_for(timeout).await {
                 info!(%id, "idle GC closing room");
                 if let Err(err) = close_interview(&state, id).await {

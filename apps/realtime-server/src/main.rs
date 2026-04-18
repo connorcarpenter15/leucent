@@ -67,7 +67,10 @@ async fn main() -> Result<()> {
         .route("/events/:interview_id", get(ws_events))
         .route("/internal/snapshot/:interview_id", get(internal_snapshot))
         .route("/internal/end/:interview_id", post(internal_end))
-        .route("/internal/broadcast/:interview_id", post(internal_broadcast))
+        .route(
+            "/internal/broadcast/:interview_id",
+            post(internal_broadcast),
+        )
         .with_state(state)
         .layer(cors)
         .layer(TraceLayer::new_for_http());

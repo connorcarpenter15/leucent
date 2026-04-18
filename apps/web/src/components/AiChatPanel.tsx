@@ -71,9 +71,7 @@ export function AiChatPanel({ interviewId }: { interviewId: string }) {
             const parsed = JSON.parse(json) as { chunk?: string };
             if (parsed.chunk) {
               setMessages((m) =>
-                m.map((msg) =>
-                  msg.id === aiId ? { ...msg, text: msg.text + parsed.chunk } : msg,
-                ),
+                m.map((msg) => (msg.id === aiId ? { ...msg, text: msg.text + parsed.chunk } : msg)),
               );
             }
           } catch {
@@ -101,8 +99,7 @@ export function AiChatPanel({ interviewId }: { interviewId: string }) {
         {messages.length === 0 && (
           <div className="rounded-lg border border-dashed border-surface-800 bg-surface-925/60 p-4 text-surface-500">
             <p className="text-surface-300">
-              Ask the AI to scaffold endpoints, debug a stack trace, or explain a section
-              of code.
+              Ask the AI to scaffold endpoints, debug a stack trace, or explain a section of code.
             </p>
             <p className="mt-2 text-xs">
               Every prompt and response is mirrored to the interviewer in real time.

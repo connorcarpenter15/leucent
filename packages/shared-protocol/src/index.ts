@@ -6,7 +6,7 @@
  * @bleucent/shared-protocol build` to emit JSON Schemas under ./schemas, which
  * the Rust and Python services then consume.
  */
-export * from './events';
-export * from './snapshot';
-export * from './tokens';
-export * from './schema';
+export * from './events.js';
+export * from './snapshot.js';
+export * from './tokens.js';
+export * from './schema.js';

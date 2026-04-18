@@ -16,7 +16,10 @@
       "import": "./dist/schema.js"
     }
   },
-  "files": ["dist", "schemas"],
+  "files": [
+    "dist",
+    "schemas"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json && node ./scripts/emit-json-schema.mjs",
     "dev": "tsc -p tsconfig.json --watch",

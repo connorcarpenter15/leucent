@@ -24,10 +24,7 @@ const variants: Record<Variant, string> = {
     'hover:bg-surface-800/70 hover:text-surface-50',
     'focus-visible:ring-surface-500',
   ),
-  danger: cn(
-    'bg-red-600 text-white hover:bg-red-500',
-    'focus-visible:ring-red-500',
-  ),
+  danger: cn('bg-red-600 text-white hover:bg-red-500', 'focus-visible:ring-red-500'),
 };
 
 const sizes: Record<Size, string> = {

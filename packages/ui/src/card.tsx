@@ -27,7 +27,10 @@ export function Card({ className, tone = 'default', ...rest }: CardProps) {
 export function CardHeader({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('flex items-center justify-between gap-2 px-5 py-4 border-b border-surface-800', className)}
+      className={cn(
+        'flex items-center justify-between gap-2 px-5 py-4 border-b border-surface-800',
+        className,
+      )}
       {...rest}
     />
   );
@@ -53,7 +56,10 @@ export function CardBody({ className, ...rest }: HTMLAttributes<HTMLDivElement>)
 export function CardFooter({ className, ...rest }: HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className={cn('flex items-center justify-end gap-2 border-t border-surface-800 px-5 py-3', className)}
+      className={cn(
+        'flex items-center justify-end gap-2 border-t border-surface-800 px-5 py-3',
+        className,
+      )}
       {...rest}
     />
   );

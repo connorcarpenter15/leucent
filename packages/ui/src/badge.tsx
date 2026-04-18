@@ -27,13 +27,7 @@ const dotColors: Record<Tone, string> = {
   accent: 'bg-accent-400',
 };
 
-export function Badge({
-  className,
-  tone = 'neutral',
-  dot = false,
-  children,
-  ...rest
-}: BadgeProps) {
+export function Badge({ className, tone = 'neutral', dot = false, children, ...rest }: BadgeProps) {
   return (
     <span
       className={cn(
@@ -43,12 +37,7 @@ export function Badge({
       )}
       {...rest}
     >
-      {dot && (
-        <span
-          aria-hidden
-          className={cn('h-1.5 w-1.5 rounded-full', dotColors[tone])}
-        />
-      )}
+      {dot && <span aria-hidden className={cn('h-1.5 w-1.5 rounded-full', dotColors[tone])} />}
       {children}
     </span>
   );

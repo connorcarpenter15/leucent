@@ -92,8 +92,8 @@ export function ReplayClient({
           <Logo size="md" className="justify-center" />
           <h1 className="mt-6 font-display text-2xl font-semibold text-surface-50">{title}</h1>
           <p className="mt-2 text-sm text-surface-400">
-            No replay log was stored for this interview. The realtime server only
-            flushes to S3 on an explicit End or after the idle GC fires.
+            No replay log was stored for this interview. The realtime server only flushes to S3 on
+            an explicit End or after the idle GC fires.
           </p>
         </div>
       </main>

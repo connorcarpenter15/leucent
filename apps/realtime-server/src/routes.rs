@@ -179,4 +179,3 @@ pub async fn whoami(
         "sub": claims.sub,
     })))
 }
-

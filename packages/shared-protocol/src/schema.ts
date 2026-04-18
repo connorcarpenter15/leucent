@@ -9,9 +9,9 @@ import {
   ExecEndEvent,
   InterviewerConstraintEvent,
   PresenceEvent,
-} from './events';
-import { InterviewSnapshot } from './snapshot';
-import { RealtimeJwtClaims, CandidateJoinResponse } from './tokens';
+} from './events.js';
+import { InterviewSnapshot } from './snapshot.js';
+import { RealtimeJwtClaims, CandidateJoinResponse } from './tokens.js';
 
 export const schemas = {
   TelemetryEvent: zodToJsonSchema(TelemetryEvent, 'TelemetryEvent'),
