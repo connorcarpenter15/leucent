@@ -8,3 +8,4 @@ pnpm-lock.yaml
 apps/realtime-server
 apps/ai-orchestrator/.venv
 apps/sandbox-provisioner/.venv
+packages/shared-protocol/schemas

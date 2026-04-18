@@ -13,7 +13,10 @@
         },
         "role": {
           "type": "string",
-          "enum": ["candidate", "interviewer"]
+          "enum": [
+            "candidate",
+            "interviewer"
+          ]
         },
         "exp": {
           "type": "integer"
@@ -22,7 +25,13 @@
           "type": "integer"
         }
       },
-      "required": ["sub", "interviewId", "role", "exp", "iat"],
+      "required": [
+        "sub",
+        "interviewId",
+        "role",
+        "exp",
+        "iat"
+      ],
       "additionalProperties": false
     }
   },

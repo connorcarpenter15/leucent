@@ -20,7 +20,12 @@
             },
             "actor": {
               "type": "string",
-              "enum": ["candidate", "interviewer", "system", "ai"]
+              "enum": [
+                "candidate",
+                "interviewer",
+                "system",
+                "ai"
+              ]
             },
             "payload": {
               "type": "object",
@@ -33,11 +38,20 @@
                   "minimum": 0
                 }
               },
-              "required": ["path", "bytesChanged"],
+              "required": [
+                "path",
+                "bytesChanged"
+              ],
               "additionalProperties": false
             }
           },
-          "required": ["kind", "interviewId", "ts", "actor", "payload"],
+          "required": [
+            "kind",
+            "interviewId",
+            "ts",
+            "actor",
+            "payload"
+          ],
           "additionalProperties": false
         },
         {
@@ -83,7 +97,13 @@
               "additionalProperties": false
             }
           },
-          "required": ["kind", "interviewId", "ts", "actor", "payload"],
+          "required": [
+            "kind",
+            "interviewId",
+            "ts",
+            "actor",
+            "payload"
+          ],
           "additionalProperties": false
         },
         {
@@ -116,11 +136,20 @@
                   "type": "string"
                 }
               },
-              "required": ["promptId", "prompt"],
+              "required": [
+                "promptId",
+                "prompt"
+              ],
               "additionalProperties": false
             }
           },
-          "required": ["kind", "interviewId", "ts", "actor", "payload"],
+          "required": [
+            "kind",
+            "interviewId",
+            "ts",
+            "actor",
+            "payload"
+          ],
           "additionalProperties": false
         },
         {
@@ -153,11 +182,21 @@
                   "type": "boolean"
                 }
               },
-              "required": ["promptId", "chunk", "done"],
+              "required": [
+                "promptId",
+                "chunk",
+                "done"
+              ],
               "additionalProperties": false
             }
           },
-          "required": ["kind", "interviewId", "ts", "actor", "payload"],
+          "required": [
+            "kind",
+            "interviewId",
+            "ts",
+            "actor",
+            "payload"
+          ],
           "additionalProperties": false
         },
         {
@@ -187,11 +226,20 @@
                   "type": "string"
                 }
               },
-              "required": ["execId", "command"],
+              "required": [
+                "execId",
+                "command"
+              ],
               "additionalProperties": false
             }
           },
-          "required": ["kind", "interviewId", "ts", "actor", "payload"],
+          "required": [
+            "kind",
+            "interviewId",
+            "ts",
+            "actor",
+            "payload"
+          ],
           "additionalProperties": false
         },
         {
@@ -231,11 +279,23 @@
                   "type": "string"
                 }
               },
-              "required": ["execId", "exitCode", "durationMs", "stdoutTail", "stderrTail"],
+              "required": [
+                "execId",
+                "exitCode",
+                "durationMs",
+                "stdoutTail",
+                "stderrTail"
+              ],
               "additionalProperties": false
             }
           },
-          "required": ["kind", "interviewId", "ts", "actor", "payload"],
+          "required": [
+            "kind",
+            "interviewId",
+            "ts",
+            "actor",
+            "payload"
+          ],
           "additionalProperties": false
         },
         {
@@ -265,11 +325,20 @@
                   "type": "string"
                 }
               },
-              "required": ["constraintId", "text"],
+              "required": [
+                "constraintId",
+                "text"
+              ],
               "additionalProperties": false
             }
           },
-          "required": ["kind", "interviewId", "ts", "actor", "payload"],
+          "required": [
+            "kind",
+            "interviewId",
+            "ts",
+            "actor",
+            "payload"
+          ],
           "additionalProperties": false
         },
         {
@@ -296,18 +365,35 @@
                 },
                 "role": {
                   "type": "string",
-                  "enum": ["candidate", "interviewer"]
+                  "enum": [
+                    "candidate",
+                    "interviewer"
+                  ]
                 },
                 "state": {
                   "type": "string",
-                  "enum": ["joined", "left", "heartbeat"]
+                  "enum": [
+                    "joined",
+                    "left",
+                    "heartbeat"
+                  ]
                 }
               },
-              "required": ["clientId", "role", "state"],
+              "required": [
+                "clientId",
+                "role",
+                "state"
+              ],
               "additionalProperties": false
             }
           },
-          "required": ["kind", "interviewId", "ts", "actor", "payload"],
+          "required": [
+            "kind",
+            "interviewId",
+            "ts",
+            "actor",
+            "payload"
+          ],
           "additionalProperties": false
         }
       ]

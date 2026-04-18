@@ -36,7 +36,10 @@
                         "type": "number"
                       }
                     },
-                    "required": ["x", "y"],
+                    "required": [
+                      "x",
+                      "y"
+                    ],
                     "additionalProperties": false
                   },
                   "data": {
@@ -44,7 +47,12 @@
                     "additionalProperties": {}
                   }
                 },
-                "required": ["id", "type", "position", "data"],
+                "required": [
+                  "id",
+                  "type",
+                  "position",
+                  "data"
+                ],
                 "additionalProperties": false
               }
             },
@@ -70,12 +78,19 @@
                     "additionalProperties": {}
                   }
                 },
-                "required": ["id", "source", "target"],
+                "required": [
+                  "id",
+                  "source",
+                  "target"
+                ],
                 "additionalProperties": false
               }
             }
           },
-          "required": ["nodes", "edges"],
+          "required": [
+            "nodes",
+            "edges"
+          ],
           "additionalProperties": false
         },
         "code": {
@@ -90,12 +105,20 @@
                 "type": "string"
               }
             },
-            "required": ["path", "contents"],
+            "required": [
+              "path",
+              "contents"
+            ],
             "additionalProperties": false
           }
         }
       },
-      "required": ["interviewId", "capturedAt", "canvas", "code"],
+      "required": [
+        "interviewId",
+        "capturedAt",
+        "canvas",
+        "code"
+      ],
       "additionalProperties": false
     }
   },

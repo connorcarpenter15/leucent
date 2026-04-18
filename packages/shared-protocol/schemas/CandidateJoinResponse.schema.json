@@ -20,7 +20,12 @@
           "format": "uri"
         }
       },
-      "required": ["interviewId", "realtimeToken", "realtimeWsUrl", "aiOrchestratorUrl"],
+      "required": [
+        "interviewId",
+        "realtimeToken",
+        "realtimeWsUrl",
+        "aiOrchestratorUrl"
+      ],
       "additionalProperties": false
     }
   },
