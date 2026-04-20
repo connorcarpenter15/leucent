@@ -9,7 +9,7 @@ and Railway for the three backend services.
 ```
             ┌──────────────────────────────┐
  candidate ─┤  apps/web        (Vercel)    ├──┐
-            │  Next.js / Better Auth       │  │ HTTPS
+            │  Next.js / Neon Auth         │  │ HTTPS
 interviewer ┤  Yjs/SSE clients             │  │
             └──────┬───────────────────────┘  │
                    │ HTTPS                    │

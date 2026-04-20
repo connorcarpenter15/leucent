@@ -16,6 +16,11 @@ target
 .env
 .env.local
 .env.*.local
+# `vercel env pull --environment=production` (and preview/development)
+# writes dotenv dumps here. They contain rotated-but-still-sensitive values
+# from Doppler, so keep them out of git unconditionally.
+.vercel.env.*
+**/.vercel.env.*
 
 # Python
 __pycache__

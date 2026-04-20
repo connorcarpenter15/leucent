@@ -4,6 +4,9 @@ import { SignupForm } from './signup-form';
 
 export const metadata = { title: 'Create an organization' };
 
+// SiteShell reads the session via Neon Auth, which requires dynamic rendering.
+export const dynamic = 'force-dynamic';
+
 export default function SignupPage() {
   return (
     <SiteShell>
@@ -25,7 +28,7 @@ export default function SignupPage() {
               {[
                 'Free to try, no credit card required',
                 'One workspace per interview, torn down at end',
-                'Built on Better Auth — your data, your tenants',
+                'Neon Auth organizations — your data, your tenants',
               ].map((line) => (
                 <li key={line} className="flex items-start gap-3">
                   <span className="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-accent-500 shadow-[0_0_6px_rgba(47,116,255,0.8)]" />

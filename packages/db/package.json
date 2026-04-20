@@ -28,6 +28,7 @@
     "test:watch": "vitest",
     "generate": "drizzle-kit generate",
     "migrate": "tsx ./scripts/migrate.ts",
+    "reset:leucent": "tsx ./scripts/reset-leucent.ts",
     "studio": "drizzle-kit studio"
   },
   "dependencies": {

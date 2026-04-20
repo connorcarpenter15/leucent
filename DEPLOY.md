@@ -37,7 +37,7 @@ but the CLI is far faster for the env-var dance below.
 
 ## 1. Provision the data plane (Neon + R2/S3)
 
-### 1a. Neon Postgres
+### 1a. Neon Postgres + Neon Auth
 
 1. https://console.neon.tech → **New Project** → name it `leucent-prod`,
    region close to your Vercel deployment region (e.g. `aws-us-east-2`).
@@ -49,16 +49,47 @@ but the CLI is far faster for the env-var dance below.
 4. Note two more values from the dashboard URL/Settings:
    - The **project ID** → `NEON_PROJECT_ID`
    - The **parent branch ID** of your `main` branch → `NEON_PARENT_BRANCH_ID`
-5. Enable `pgvector` once: open the **SQL Editor** and run
+5. **Enable Neon Auth on the `main` branch** → **Auth → Get started**.
+   - **Plugins → Organizations (Beta)**: confirm enabled. Keep the default
+     limits (10 orgs/user, 100 members/org) unless you've agreed otherwise.
+   - **Configuration → Base URL**: copy this. It looks like
+     `https://ep-xxx.neonauth.<region>.aws.neon.tech/neondb/auth`. That
+     becomes `NEON_AUTH_BASE_URL`.
+   - Enabling Auth provisions the `user`, `session`, `account`,
+     `verification`, `organization`, `member`, `invitation` tables on the
+     branch automatically — leucent's Drizzle schema only re-declares
+     stubs of `user` and `organization` so its FKs type-check.
+6. Enable `pgvector` once: open the **SQL Editor** and run
    ```sql
    CREATE EXTENSION IF NOT EXISTS vector;
    ```
-6. Run the schema migrations from your laptop the first time:
+7. **Run the leucent migrations AFTER Auth is enabled**, not before — the
+   FKs in leucent's migration reference `public.user(id)` and
+   `public.organization(id)`, which must already exist:
+
    ```bash
    set -a && . ./.env.production && set +a
    pnpm --filter @leucent/db migrate
    ```
+
    (after this is automated in CI you'll never run it by hand again.)
+
+   **Recovering from a half-applied pre-Neon-Auth migration.** If you were
+   on Better Auth before the Neon Auth migration and `pnpm --filter
+@leucent/db migrate` fails with errors like `type "interview_status"
+already exists`, the old `0000_misty_silver_surfer.sql` has already run
+   on this branch. Reset leucent's objects AND drop the legacy Better Auth
+   `public.user` / `public.session` / etc. tables (Neon Auth uses the
+   `neon_auth` schema instead, so the `public` copies are orphans):
+
+   ```bash
+   set -a && . ./.env.production && set +a
+   pnpm --filter @leucent/db reset:leucent -- --confirm --drop-auth-orphans
+   pnpm --filter @leucent/db migrate
+   ```
+
+   Omit `--drop-auth-orphans` if you only want the leucent-tables reset and
+   you've already cleaned up the legacy `public` auth tables by hand.
 
 ### 1b. Replay log bucket
 
@@ -87,8 +118,12 @@ exact same value everywhere — anything else and inter-service calls will 401.
 ```bash
 node -e "console.log('REALTIME_JWT_SECRET=' + require('crypto').randomBytes(32).toString('base64url'))"
 node -e "console.log('REALTIME_INTERNAL_TOKEN=' + require('crypto').randomBytes(32).toString('base64url'))"
-node -e "console.log('BETTER_AUTH_SECRET=' + require('crypto').randomBytes(32).toString('base64url'))"
+node -e "console.log('NEON_AUTH_COOKIE_SECRET=' + require('crypto').randomBytes(32).toString('base64url'))"
 ```
+
+(`NEON_AUTH_COOKIE_SECRET` is _leucent_'s cookie-signing secret for the
+Neon Auth browser client — it is NOT the Neon Auth server secret, which
+Neon manages for you.)
 
 Save these to a password manager. You'll paste them into both Railway and
 Vercel below.
@@ -248,8 +283,8 @@ Critical project settings:
 
 ```env
 DATABASE_URL=${NEON_DATABASE_URL}
-BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
-BETTER_AUTH_URL=https://leucent.app
+NEON_AUTH_BASE_URL=${NEON_AUTH_BASE_URL}
+NEON_AUTH_COOKIE_SECRET=${NEON_AUTH_COOKIE_SECRET}
 REALTIME_SERVER_URL=https://realtime-production-XXXX.up.railway.app
 REALTIME_INTERNAL_TOKEN=${REALTIME_INTERNAL_TOKEN}
 REALTIME_JWT_SECRET=${REALTIME_JWT_SECRET}
@@ -278,7 +313,10 @@ NEON_PARENT_BRANCH_ID=${NEON_PARENT_BRANCH_ID}
 ### 4c. Configure the production domain
 
 **Settings → Domains** → add `leucent.app` (or your domain). Vercel issues
-the cert automatically. Then update `BETTER_AUTH_URL` to match.
+the cert automatically. No auth-URL rewrites are needed — Neon Auth uses
+`NEON_AUTH_BASE_URL` (the Neon-hosted endpoint) internally, and the
+browser talks to it through leucent's `/api/auth/[...path]` catch-all
+route, which works on any domain Vercel serves the app on.
 
 ### 4d. Deploy
 

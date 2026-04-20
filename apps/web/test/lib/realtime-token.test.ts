@@ -7,8 +7,8 @@ const ORIGINAL_ENV = { ...process.env };
 
 beforeAll(() => {
   process.env.DATABASE_URL = 'postgres://x:y@localhost:5432/test';
-  process.env.BETTER_AUTH_SECRET = 'aaaaaaaaaaaaaaaaaaaaaaaa';
-  process.env.BETTER_AUTH_URL = 'http://localhost:3000';
+  process.env.NEON_AUTH_BASE_URL = 'http://localhost:9999/dev-neon-auth';
+  process.env.NEON_AUTH_COOKIE_SECRET = 'test-neon-auth-cookie-secret-32-bytes-ok';
   process.env.REALTIME_SERVER_URL = 'http://localhost:4000';
   process.env.REALTIME_INTERNAL_TOKEN = 'internal-token';
   process.env.REALTIME_JWT_SECRET = SECRET;

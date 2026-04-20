@@ -1,18 +1,17 @@
 'use client';
-import { createAuthClient } from 'better-auth/react';
-import { organizationClient } from 'better-auth/client/plugins';
+import { createAuthClient } from '@neondatabase/auth/next';
 
-function makeClient() {
-  return createAuthClient({
-    baseURL:
-      typeof window === 'undefined'
-        ? process.env.BETTER_AUTH_URL
-        : `${window.location.protocol}//${window.location.host}`,
-    plugins: [organizationClient()],
-  });
-}
-
-export const authClient: ReturnType<typeof makeClient> = makeClient();
+/**
+ * Neon Auth browser client. `createAuthClient()` takes no arguments in the
+ * Next.js package — all calls are proxied through the `/api/auth/[...path]`
+ * catch-all route handler, so the client doesn't need to know the Neon Auth
+ * base URL.
+ *
+ * Organization methods (`authClient.organization.create`, `.setActive`,
+ * `.inviteMember`, etc.) are included automatically when the Organization
+ * plugin is enabled in Neon Console -> Auth -> Plugins.
+ */
+export const authClient = createAuthClient();
 
 export const signIn = authClient.signIn;
 export const signOut = authClient.signOut;

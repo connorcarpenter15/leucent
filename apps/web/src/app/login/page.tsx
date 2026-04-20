@@ -4,6 +4,9 @@ import { LoginForm } from './login-form';
 
 export const metadata = { title: 'Sign in' };
 
+// SiteShell reads the session via Neon Auth, which requires dynamic rendering.
+export const dynamic = 'force-dynamic';
+
 export default function LoginPage() {
   return (
     <SiteShell>

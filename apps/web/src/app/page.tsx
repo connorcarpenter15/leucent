@@ -2,6 +2,9 @@ import Link from 'next/link';
 import { Badge, Button, Card, CardBody, CardHeader, CardTitle, Container } from '@leucent/ui';
 import { SiteShell } from '@/components/SiteShell';
 
+// SiteShell reads the session via Neon Auth, which requires dynamic rendering.
+export const dynamic = 'force-dynamic';
+
 const FEATURES = [
   {
     title: 'Real-time canvas + IDE',
@@ -30,7 +33,7 @@ const FEATURES = [
   },
   {
     title: 'Built for teams',
-    body: 'Better Auth organizations and roles out of the box. Single-use candidate invite tokens. JWT-scoped realtime sessions. Per-interview Neon branches for blast-radius containment.',
+    body: 'Neon Auth organizations and roles out of the box. Single-use candidate invite tokens. JWT-scoped realtime sessions. Per-interview Neon branches for blast-radius containment.',
     badge: 'Enterprise',
   },
 ];
@@ -262,7 +265,7 @@ function Security() {
             'Single-use candidate invite tokens, hashed at rest',
             'Per-interview Neon branch with strict readiness probe before signaling ready',
             'S3 flush only on explicit End Interview or idle GC',
-            'Better Auth organizations + role-based access for interviewers',
+            'Neon Auth organizations + role-based access for interviewers',
           ].map((line) => (
             <div
               key={line}

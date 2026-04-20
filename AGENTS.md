@@ -6,7 +6,7 @@ A synchronous multi-tenant interview platform. This file is for AI agents and hu
 
 | Service                                   | Path                       | Stack                           | Hosting (prod)                 |
 | ----------------------------------------- | -------------------------- | ------------------------------- | ------------------------------ |
-| Web (candidate IDE + interviewer console) | `apps/web`                 | Next.js 15 + Better Auth        | Vercel                         |
+| Web (candidate IDE + interviewer console) | `apps/web`                 | Next.js 15 + Neon Auth          | Vercel                         |
 | Realtime server                           | `apps/realtime-server`     | Rust + Axum + yrs               | Railway                        |
 | AI orchestrator                           | `apps/ai-orchestrator`     | Python 3.12 + FastAPI + LiteLLM | Railway                        |
 | Sandbox provisioner                       | `apps/sandbox-provisioner` | Python 3.12 + FastAPI + Docker  | Railway (P1) / AWS .metal (P2) |

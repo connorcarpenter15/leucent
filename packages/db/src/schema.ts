@@ -1,111 +1,55 @@
 import {
   pgTable,
+  pgSchema,
   text,
   timestamp,
-  boolean,
   integer,
   jsonb,
   uuid,
   pgEnum,
   index,
-  uniqueIndex,
 } from 'drizzle-orm/pg-core';
 
 /* ===================================================================
- * Better Auth core tables.
- * Names follow Better Auth defaults so the Drizzle adapter Just Works.
+ * Neon Auth (Better Auth under the hood) reference stubs.
+ *
+ * Neon Auth stores all authentication data in the dedicated `neon_auth`
+ * Postgres schema — `neon_auth.user`, `neon_auth.session`,
+ * `neon_auth.account`, `neon_auth.verification`, plus
+ * `neon_auth.organization`, `neon_auth.member`, `neon_auth.invitation` when
+ * the Organization plugin is enabled. These tables are provisioned
+ * automatically when Auth is toggled on in the Neon Console.
+ *
+ * We declare only `user` and `organization` here, and only their PK, because
+ * those are the two ids leucent's FK columns reference. Do NOT move these
+ * into `public`: putting them in `public` would make drizzle-kit emit FKs
+ * pointing at `public.user` / `public.organization`, which Neon Auth never
+ * writes to — any INSERT into leucent.interview would then fail the FK check.
+ *
+ * Rules:
+ *   1. Do NOT add columns to these stubs. Neon Auth owns the table shape;
+ *      extra columns here would conflict with its provisioned DDL.
+ *   2. drizzle.config.ts's `tablesFilter` ignores these names so
+ *      `pnpm db:generate` never emits CREATE TABLE / DROP TABLE for them.
+ *   3. Deployment order: enable Neon Auth on the branch FIRST so the
+ *      `neon_auth` schema + tables exist, THEN run `pnpm db:migrate`.
  * =================================================================== */
 
-export const user = pgTable('user', {
-  id: text('id').primaryKey(),
-  name: text('name').notNull(),
-  email: text('email').notNull().unique(),
-  emailVerified: boolean('email_verified').notNull().default(false),
-  image: text('image'),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+const neonAuth = pgSchema('neon_auth');
+
+// Column types MUST match what Neon Auth provisions on the branch:
+//   neon_auth.user.id          uuid NOT NULL
+//   neon_auth.organization.id  uuid NOT NULL
+// If you ever change these, run `scripts/inspect-neon-auth.ts` against a
+// Neon-Auth-enabled branch to confirm the live column types first — a
+// mismatch (e.g. text vs uuid) makes Postgres reject every FK with
+// "Key columns ... are of incompatible types".
+export const user = neonAuth.table('user', {
+  id: uuid('id').primaryKey(),
 });
 
-export const session = pgTable('session', {
-  id: text('id').primaryKey(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  token: text('token').notNull().unique(),
-  expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
-  ipAddress: text('ip_address'),
-  userAgent: text('user_agent'),
-  activeOrganizationId: text('active_organization_id'),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
-});
-
-export const account = pgTable('account', {
-  id: text('id').primaryKey(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  accountId: text('account_id').notNull(),
-  providerId: text('provider_id').notNull(),
-  accessToken: text('access_token'),
-  refreshToken: text('refresh_token'),
-  idToken: text('id_token'),
-  accessTokenExpiresAt: timestamp('access_token_expires_at', { withTimezone: true }),
-  refreshTokenExpiresAt: timestamp('refresh_token_expires_at', { withTimezone: true }),
-  scope: text('scope'),
-  password: text('password'),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
-});
-
-export const verification = pgTable('verification', {
-  id: text('id').primaryKey(),
-  identifier: text('identifier').notNull(),
-  value: text('value').notNull(),
-  expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
-});
-
-export const organization = pgTable('organization', {
-  id: text('id').primaryKey(),
-  name: text('name').notNull(),
-  slug: text('slug').notNull().unique(),
-  logo: text('logo'),
-  metadata: text('metadata'),
-  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-});
-
-export const member = pgTable(
-  'member',
-  {
-    id: text('id').primaryKey(),
-    organizationId: text('organization_id')
-      .notNull()
-      .references(() => organization.id, { onDelete: 'cascade' }),
-    userId: text('user_id')
-      .notNull()
-      .references(() => user.id, { onDelete: 'cascade' }),
-    role: text('role').notNull().default('member'),
-    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
-  },
-  (t) => ({
-    orgUserUnique: uniqueIndex('member_org_user_unique').on(t.organizationId, t.userId),
-  }),
-);
-
-export const invitation = pgTable('invitation', {
-  id: text('id').primaryKey(),
-  organizationId: text('organization_id')
-    .notNull()
-    .references(() => organization.id, { onDelete: 'cascade' }),
-  email: text('email').notNull(),
-  role: text('role'),
-  status: text('status').notNull().default('pending'),
-  inviterId: text('inviter_id')
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade' }),
-  expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+export const organization = neonAuth.table('organization', {
+  id: uuid('id').primaryKey(),
 });
 
 /* ===================================================================
@@ -123,10 +67,10 @@ export const interview = pgTable(
   'interview',
   {
     id: uuid('id').primaryKey().defaultRandom(),
-    organizationId: text('organization_id')
+    organizationId: uuid('organization_id')
       .notNull()
       .references(() => organization.id, { onDelete: 'cascade' }),
-    interviewerUserId: text('interviewer_user_id')
+    interviewerUserId: uuid('interviewer_user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'restrict' }),
     candidateName: text('candidate_name').notNull(),
@@ -193,7 +137,7 @@ export const interviewerConstraint = pgTable(
       .notNull()
       .references(() => interview.id, { onDelete: 'cascade' }),
     text: text('text').notNull(),
-    createdByUserId: text('created_by_user_id')
+    createdByUserId: uuid('created_by_user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'restrict' }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),

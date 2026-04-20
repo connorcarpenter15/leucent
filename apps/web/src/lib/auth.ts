@@ -1,33 +1,19 @@
-import { betterAuth } from 'better-auth';
-import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { organization } from 'better-auth/plugins';
-import { db } from './db';
+import { createNeonAuth } from '@neondatabase/auth/next/server';
 import { env } from './env';
 
-export const auth = betterAuth({
-  database: drizzleAdapter(db(), {
-    provider: 'pg',
-    usePlural: false,
-  }),
-  secret: env().BETTER_AUTH_SECRET,
-  baseURL: env().BETTER_AUTH_URL,
-  emailAndPassword: {
-    enabled: true,
-    requireEmailVerification: false,
-    minPasswordLength: 8,
-  },
-  session: {
-    expiresIn: 60 * 60 * 24 * 7,
-    updateAge: 60 * 60 * 24,
-  },
-  plugins: [
-    organization({
-      allowUserToCreateOrganization: true,
-      organizationLimit: 5,
-      membershipLimit: 100,
-    }),
-  ],
+/**
+ * Neon Auth (Beta) server instance. The underlying auth server (Better Auth) is
+ * managed by Neon — password policy, session TTL, org limits, OAuth providers
+ * and the Organization plugin are configured per-branch in
+ * Neon Console -> Auth -> Plugins rather than in code.
+ *
+ * `.handler()` is mounted at `app/api/auth/[...path]/route.ts`, and server
+ * components/route handlers call `auth.getSession()` (which requires
+ * `export const dynamic = 'force-dynamic'` on pages).
+ */
+export const auth = createNeonAuth({
+  baseUrl: env().NEON_AUTH_BASE_URL,
+  cookies: { secret: env().NEON_AUTH_COOKIE_SECRET },
 });
 
 export type Auth = typeof auth;
-export type Session = Auth['$Infer']['Session'];

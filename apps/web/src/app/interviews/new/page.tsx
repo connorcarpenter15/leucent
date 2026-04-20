@@ -6,6 +6,9 @@ import { NewInterviewForm } from './new-interview-form';
 
 export const metadata = { title: 'New interview' };
 
+// getSession() reads the session via Neon Auth, which requires dynamic rendering.
+export const dynamic = 'force-dynamic';
+
 export default async function NewInterviewPage() {
   const session = await getSession();
   if (!session?.user) redirect('/login');
