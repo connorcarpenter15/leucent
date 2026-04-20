@@ -6,8 +6,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       pkg-config libssl-dev ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
-COPY apps/realtime-server/Cargo.toml apps/realtime-server/Cargo.lock* ./
-COPY apps/realtime-server/src ./src
+COPY Cargo.toml Cargo.lock* ./
+COPY src ./src
 
 RUN cargo build --release --bin leucent-realtime
 

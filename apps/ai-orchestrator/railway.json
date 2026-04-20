@@ -6,7 +6,7 @@
     "watchPatterns": ["apps/ai-orchestrator/**", "packages/shared-protocol/**"]
   },
   "deploy": {
-    "startCommand": "uvicorn app.main:app --host 0.0.0.0 --port $PORT",
+    "startCommand": "sh -c 'uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-5000}'",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 30,
     "restartPolicyType": "ON_FAILURE",
