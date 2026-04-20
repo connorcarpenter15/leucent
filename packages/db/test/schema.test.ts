@@ -1,30 +1,35 @@
 import { getTableColumns, getTableName } from 'drizzle-orm';
+import { getTableConfig } from 'drizzle-orm/pg-core';
 import { describe, expect, it } from 'vitest';
 import {
   aiContextChunk,
-  account,
   interview,
   interviewEvent,
   interviewInvite,
   interviewStatus,
   interviewerConstraint,
-  invitation,
-  member,
   organization,
-  session,
   user,
-  verification,
 } from '../src/schema';
 
 describe('Drizzle schema', () => {
-  it('exposes Better Auth tables under expected names', () => {
+  it('exposes Neon-Auth-owned reference stubs (in `neon_auth` schema) so leucent FKs type-check', () => {
+    // These stubs must exist in the `neon_auth` schema — that's where Neon
+    // Auth writes real user/org rows. If they were in `public` instead,
+    // drizzle-kit would emit FKs pointing at `public.user` / `public.organization`,
+    // which Neon Auth never populates, and every signup-then-create-interview
+    // flow would fail FK checks at INSERT time. Each stub must only expose
+    // `id` — Neon Auth owns any additional columns.
     expect(getTableName(user)).toBe('user');
-    expect(getTableName(session)).toBe('session');
-    expect(getTableName(account)).toBe('account');
-    expect(getTableName(verification)).toBe('verification');
     expect(getTableName(organization)).toBe('organization');
-    expect(getTableName(member)).toBe('member');
-    expect(getTableName(invitation)).toBe('invitation');
+    expect(getTableConfig(user).schema).toBe('neon_auth');
+    expect(getTableConfig(organization).schema).toBe('neon_auth');
+    const userCols = getTableColumns(user);
+    const orgCols = getTableColumns(organization);
+    expect(userCols).toHaveProperty('id');
+    expect(orgCols).toHaveProperty('id');
+    expect(Object.keys(userCols)).toEqual(['id']);
+    expect(Object.keys(orgCols)).toEqual(['id']);
   });
 
   it('exposes Leucent domain tables under expected names', () => {

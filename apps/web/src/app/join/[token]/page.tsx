@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 /**
  * The candidate landing page. Validates the single-use invite token, marks it
  * consumed, sets a scoped session cookie, and redirects to the candidate
- * workspace. Candidates never authenticate against Better Auth; this cookie is
+ * workspace. Candidates never authenticate against Neon Auth; this cookie is
  * the entire scope of their session and is bound to one interview id.
  */
 export default async function JoinPage({ params }: { params: Promise<{ token: string }> }) {

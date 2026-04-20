@@ -36,8 +36,8 @@ beforeEach(() => {
   process.env = {
     ...cleaned,
     DATABASE_URL: 'postgres://u:p@h/d',
-    BETTER_AUTH_SECRET: 'aaaaaaaaaaaaaaaaaaaaaaaa',
-    BETTER_AUTH_URL: 'http://localhost:3000',
+    NEON_AUTH_BASE_URL: 'http://localhost:9999/dev-neon-auth',
+    NEON_AUTH_COOKIE_SECRET: 'test-neon-auth-cookie-secret-32-bytes-ok',
     REALTIME_SERVER_URL: 'http://localhost:4000',
     REALTIME_INTERNAL_TOKEN: 'internal',
     REALTIME_JWT_SECRET: 'jwt-secret-very-long-enough',

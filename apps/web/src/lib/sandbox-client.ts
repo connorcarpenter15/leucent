@@ -9,6 +9,17 @@ export type SandboxCreateResponse = {
   neon_branch_id?: string;
 };
 
+function requireSandboxUrl(): string {
+  const url = env().SANDBOX_PROVISIONER_URL;
+  if (!url) {
+    throw new Error(
+      'SANDBOX_PROVISIONER_URL is not configured. Set it in Doppler (prd) or .env.local ' +
+        'before starting interviews. See DEPLOY.md section 4b for the expected value.',
+    );
+  }
+  return url;
+}
+
 /**
  * Creates a sandbox + ephemeral DB branch for an interview. The provisioner is
  * required to block until both the Neon branch passes a `SELECT 1` readiness
@@ -19,7 +30,8 @@ export async function createSandbox(args: {
   interviewId: string;
   organizationId: string;
 }): Promise<SandboxCreateResponse> {
-  const res = await fetch(`${env().SANDBOX_PROVISIONER_URL}/sandboxes`, {
+  const base = requireSandboxUrl();
+  const res = await fetch(`${base}/sandboxes`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -38,7 +50,8 @@ export async function createSandbox(args: {
 }
 
 export async function destroySandbox(sandboxId: string): Promise<void> {
-  await fetch(`${env().SANDBOX_PROVISIONER_URL}/sandboxes/${sandboxId}`, {
+  const base = requireSandboxUrl();
+  await fetch(`${base}/sandboxes/${sandboxId}`, {
     method: 'DELETE',
     headers: { authorization: `Bearer ${env().REALTIME_INTERNAL_TOKEN}` },
   });

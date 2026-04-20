@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { Button } from '@leucent/ui';
 import { signOut } from '@/lib/auth-client';
 
-/** Header sign-out control. Calls Better Auth and bounces to /login. */
+/** Header sign-out control. Calls Neon Auth and bounces to /login. */
 export function SignOutButton() {
   const router = useRouter();
   const [pending, setPending] = useState(false);

@@ -5,8 +5,8 @@ const ORIGINAL_ENV = { ...process.env };
 function clearRequiredEnv() {
   for (const key of [
     'DATABASE_URL',
-    'BETTER_AUTH_SECRET',
-    'BETTER_AUTH_URL',
+    'NEON_AUTH_BASE_URL',
+    'NEON_AUTH_COOKIE_SECRET',
     'REALTIME_SERVER_URL',
     'REALTIME_INTERNAL_TOKEN',
     'REALTIME_JWT_SECRET',
@@ -34,8 +34,8 @@ describe('env()', () => {
     const { env } = await import('../../src/lib/env');
     const e = env();
     expect(e.DATABASE_URL).toMatch(/^postgres:\/\//);
-    expect(e.BETTER_AUTH_URL).toBe('http://localhost:3000');
-    expect(e.REALTIME_SERVER_URL).toBe('http://localhost:4000');
+    expect(e.NEON_AUTH_BASE_URL).toMatch(/^https?:\/\//);
+    expect(e.NEON_AUTH_COOKIE_SECRET.length).toBeGreaterThanOrEqual(32);
     expect(e.REALTIME_JWT_SECRET.length).toBeGreaterThanOrEqual(16);
     expect(warn).toHaveBeenCalled();
   });
@@ -43,8 +43,8 @@ describe('env()', () => {
   it('returns the parsed values when env is fully configured', async () => {
     clearRequiredEnv();
     process.env.DATABASE_URL = 'postgres://u:p@h:5432/db';
-    process.env.BETTER_AUTH_SECRET = 'this-is-long-enough';
-    process.env.BETTER_AUTH_URL = 'http://example.com';
+    process.env.NEON_AUTH_BASE_URL = 'https://auth.example.com/neondb/auth';
+    process.env.NEON_AUTH_COOKIE_SECRET = 'test-cookie-secret-32-characters-long-ok';
     process.env.REALTIME_SERVER_URL = 'http://realtime.example.com';
     process.env.REALTIME_INTERNAL_TOKEN = 'internal-token-x';
     process.env.REALTIME_JWT_SECRET = 'jwt-secret-very-long-here';
@@ -55,16 +55,39 @@ describe('env()', () => {
     const { env } = await import('../../src/lib/env');
     const e = env();
     expect(e.DATABASE_URL).toBe('postgres://u:p@h:5432/db');
-    expect(e.BETTER_AUTH_URL).toBe('http://example.com');
+    expect(e.NEON_AUTH_BASE_URL).toBe('https://auth.example.com/neondb/auth');
     expect(e.S3_REGION).toBe('us-east-1');
   });
 
-  it('throws in production when required vars are missing', async () => {
+  it('service URLs (realtime/ai/sandbox/ws) are optional and may be undefined', async () => {
+    clearRequiredEnv();
+    process.env.DATABASE_URL = 'postgres://u:p@h:5432/db';
+    process.env.NEON_AUTH_BASE_URL = 'https://auth.example.com/neondb/auth';
+    process.env.NEON_AUTH_COOKIE_SECRET = 'test-cookie-secret-32-characters-long-ok';
+    process.env.REALTIME_INTERNAL_TOKEN = 'internal-token-x';
+    process.env.REALTIME_JWT_SECRET = 'jwt-secret-very-long-here';
+    const { env } = await import('../../src/lib/env');
+    const e = env();
+    expect(e.REALTIME_SERVER_URL).toBeUndefined();
+    expect(e.AI_ORCHESTRATOR_URL).toBeUndefined();
+    expect(e.SANDBOX_PROVISIONER_URL).toBeUndefined();
+    expect(e.NEXT_PUBLIC_REALTIME_WS_URL).toBeUndefined();
+  });
+
+  it('throws in production when required vars are missing and includes field errors in the message', async () => {
     clearRequiredEnv();
     process.env.NODE_ENV = 'production';
     vi.spyOn(console, 'error').mockImplementation(() => {});
     const { env } = await import('../../src/lib/env');
-    expect(() => env()).toThrow(/Invalid environment configuration/);
+    try {
+      env();
+      throw new Error('expected env() to throw');
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      expect(msg).toMatch(/Invalid environment configuration/);
+      // The thrown message must self-diagnose which var was missing.
+      expect(msg).toMatch(/NEON_AUTH_BASE_URL|DATABASE_URL/);
+    }
   });
 
   it('does not throw during `next build` even when required vars are missing', async () => {
@@ -76,7 +99,7 @@ describe('env()', () => {
       const { env } = await import('../../src/lib/env');
       const e = env();
       expect(e.DATABASE_URL).toMatch(/^postgres:\/\//);
-      expect(e.BETTER_AUTH_URL).toBe('http://localhost:3000');
+      expect(e.NEON_AUTH_BASE_URL).toMatch(/^https?:\/\//);
       expect(warn).toHaveBeenCalled();
     } finally {
       delete process.env.NEXT_PHASE;

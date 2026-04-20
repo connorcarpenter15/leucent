@@ -3,7 +3,14 @@ import { env } from './env';
 /** Thin client for service-to-service calls to the Rust realtime server. */
 
 export async function endRealtimeSession(interviewId: string): Promise<void> {
-  const res = await fetch(`${env().REALTIME_SERVER_URL}/internal/end/${interviewId}`, {
+  const base = env().REALTIME_SERVER_URL;
+  if (!base) {
+    throw new Error(
+      'REALTIME_SERVER_URL is not configured. Set it in Doppler (prd) or .env.local ' +
+        'so the web app can reach the realtime service.',
+    );
+  }
+  const res = await fetch(`${base}/internal/end/${interviewId}`, {
     method: 'POST',
     headers: { authorization: `Bearer ${env().REALTIME_INTERNAL_TOKEN}` },
   });

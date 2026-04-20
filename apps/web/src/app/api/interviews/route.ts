@@ -4,7 +4,6 @@ import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
 import { generateInviteToken } from '@/lib/invite-token';
-import { env } from '@/lib/env';
 
 const Body = z.object({
   title: z.string().min(1).max(200),
@@ -67,7 +66,11 @@ export async function POST(req: Request) {
     expiresAt,
   });
 
-  const joinUrl = new URL(`/join/${token}`, env().BETTER_AUTH_URL).toString();
+  // Neon Auth replaces the old BETTER_AUTH_URL env var. For the join link we
+  // derive the site origin from the incoming request instead of a dedicated
+  // env var — that way preview deployments and custom domains "just work"
+  // and we don't have to keep a site URL in sync with Vercel's domains.
+  const joinUrl = new URL(`/join/${token}`, new URL(req.url).origin).toString();
 
   return NextResponse.json({
     interviewId: created.id,
