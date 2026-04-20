@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { eq } from 'drizzle-orm';
-import { schema } from '@bleucent/db';
+import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
 import { mintRealtimeToken } from '@/lib/realtime-token';
@@ -26,7 +26,7 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
     return NextResponse.json({ token });
   }
 
-  const candidateCookie = (await cookies()).get(`bleucent_candidate_${id}`);
+  const candidateCookie = (await cookies()).get(`leucent_candidate_${id}`);
   if (candidateCookie?.value) {
     const token = await mintRealtimeToken({
       subject: candidateCookie.value,

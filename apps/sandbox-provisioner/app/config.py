@@ -22,11 +22,11 @@ class Settings(BaseSettings):
     )
 
     realtime_internal_token: str = "local-dev-internal-token-change-me"
-    database_url: str = "postgres://bleucent:bleucent@localhost:5432/bleucent"
+    database_url: str = "postgres://leucent:leucent@localhost:5432/leucent"
 
     # Docker
     docker_host: str | None = None  # e.g. "tcp://dind:2375" in docker-compose
-    sandbox_image: str = "ghcr.io/bleucent/sandbox-base:latest"
+    sandbox_image: str = "ghcr.io/leucent/sandbox-base:latest"
     sandbox_mem_limit: str = "1g"
     sandbox_cpu_quota: int = 50_000  # 50% of one core (period default 100k)
     sandbox_pids_limit: int = 256
@@ -37,8 +37,8 @@ class Settings(BaseSettings):
     neon_api_key: str | None = None
     neon_project_id: str | None = None
     neon_parent_branch_id: str | None = None
-    neon_role: str = "bleucent"
-    neon_database: str = "bleucent"
+    neon_role: str = "leucent"
+    neon_database: str = "leucent"
 
     # Readiness probe budget
     readiness_total_seconds: float = 30.0

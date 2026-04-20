@@ -109,7 +109,7 @@ export const invitation = pgTable('invitation', {
 });
 
 /* ===================================================================
- * Bleucent domain tables.
+ * Leucent domain tables.
  * =================================================================== */
 
 export const interviewStatus = pgEnum('interview_status', [

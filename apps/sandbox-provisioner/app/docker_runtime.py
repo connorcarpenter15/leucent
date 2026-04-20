@@ -54,7 +54,7 @@ def create_container(
     s = get_settings()
     client = _client()
 
-    name = f"bleucent-sbx-{interview_id[:8]}"
+    name = f"leucent-sbx-{interview_id[:8]}"
     extra_hosts = {}
     for entry in parse_egress_allowlist(s.sandbox_egress_allowlist):
         if ":" in entry:
@@ -75,16 +75,16 @@ def create_container(
         tmpfs={"/workspace": f"size={s.sandbox_workspace_size},mode=1777"},
         environment={
             "DATABASE_URL": database_url,
-            "BLEUCENT_INTERVIEW_ID": interview_id,
+            "LEUCENT_INTERVIEW_ID": interview_id,
         },
         cap_drop=["ALL"],
         security_opt=["no-new-privileges:true"],
-        user="bleucent",
+        user="leucent",
         working_dir="/workspace",
         command=["sleep", "infinity"],
         labels={
-            "bleucent.role": "sandbox",
-            "bleucent.interview_id": interview_id,
+            "leucent.role": "sandbox",
+            "leucent.interview_id": interview_id,
         },
     )
     return ContainerHandle(container_id=container.id, name=name)

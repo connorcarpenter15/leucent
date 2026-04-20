@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Button } from '@bleucent/ui';
+import { Button } from '@leucent/ui';
 import { signOut } from '@/lib/auth-client';
 
 /** Header sign-out control. Calls Better Auth and bounces to /login. */

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import Link from 'next/link';
-import { Button, SiteFooter, SiteHeader, type FooterColumn, type NavLink } from '@bleucent/ui';
+import { Button, SiteFooter, SiteHeader, type FooterColumn, type NavLink } from '@leucent/ui';
 import { getSession } from '@/lib/session';
 import { SignOutButton } from './SignOutButton';
 
@@ -25,7 +25,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     heading: 'Company',
     links: [
       { href: '/signup', label: 'Get a demo' },
-      { href: 'mailto:hello@bleucent.dev', label: 'Contact', external: true },
+      { href: 'mailto:hello@leucent.dev', label: 'Contact', external: true },
     ],
   },
 ];

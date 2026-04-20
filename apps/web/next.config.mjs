@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  transpilePackages: ['@bleucent/ui', '@bleucent/shared-protocol', '@bleucent/db'],
+  transpilePackages: ['@leucent/ui', '@leucent/shared-protocol', '@leucent/db'],
   experimental: {
     serverActions: { bodySizeLimit: '2mb' },
   },

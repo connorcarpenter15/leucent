@@ -44,7 +44,7 @@ jobs:
         run: pnpm install --frozen-lockfile=false
 
       - name: Build workspace packages
-        run: pnpm --filter '@bleucent/shared-protocol' --filter '@bleucent/db' build
+        run: pnpm --filter '@leucent/shared-protocol' --filter '@leucent/db' build
 
       - name: Typecheck
         run: pnpm typecheck
@@ -54,10 +54,10 @@ jobs:
 
       - name: Test (Vitest)
         run: |
-          pnpm --filter '@bleucent/shared-protocol' test
-          pnpm --filter '@bleucent/db' test
-          pnpm --filter '@bleucent/ui' test
-          pnpm --filter '@bleucent/web' test
+          pnpm --filter '@leucent/shared-protocol' test
+          pnpm --filter '@leucent/db' test
+          pnpm --filter '@leucent/ui' test
+          pnpm --filter '@leucent/web' test
 
       - name: Build apps/web
         env:
@@ -71,7 +71,7 @@ jobs:
           AI_ORCHESTRATOR_URL: http://localhost:5000
           SANDBOX_PROVISIONER_URL: http://localhost:6000
           NEXT_PUBLIC_REALTIME_WS_URL: ws://localhost:4000
-        run: pnpm --filter '@bleucent/web' build
+        run: pnpm --filter '@leucent/web' build
 
   # ------------------------------------------------------------------
   # Rust realtime server: fmt + clippy + cargo test. Restored cache
@@ -100,10 +100,10 @@ jobs:
         run: cargo fmt --all -- --check
 
       - name: Clippy
-        run: cargo clippy --bin bleucent-realtime --all-features -- -D warnings
+        run: cargo clippy --bin leucent-realtime --all-features -- -D warnings
 
       - name: Test
-        run: cargo test --bin bleucent-realtime --no-fail-fast
+        run: cargo test --bin leucent-realtime --no-fail-fast
 
   # ------------------------------------------------------------------
   # Python services: install dev extras, run ruff, run pytest.
@@ -142,7 +142,10 @@ jobs:
         run: pytest -q
 
   # ------------------------------------------------------------------
-  # Summary gate. Branch protection should require this single check.
+  # Summary gate. This is the check Vercel Deployment Checks watches,
+  # and what branch protection should require. Its name must stay
+  # stable (`CI passed`) — it's referenced by name in Vercel project
+  # settings. Renaming it requires re-selecting it there.
   # ------------------------------------------------------------------
   ci-pass:
     name: CI passed

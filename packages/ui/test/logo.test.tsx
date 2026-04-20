@@ -5,12 +5,12 @@ import { Logo } from '../src/logo';
 describe('Logo', () => {
   it('renders the wordmark by default', () => {
     render(<Logo />);
-    expect(screen.getByText('Bleucent')).toBeInTheDocument();
+    expect(screen.getByText('Leucent')).toBeInTheDocument();
   });
 
   it('hides the wordmark when showWordmark=false', () => {
     render(<Logo showWordmark={false} />);
-    expect(screen.queryByText('Bleucent')).toBeNull();
+    expect(screen.queryByText('Leucent')).toBeNull();
   });
 
   it('respects the size prop', () => {

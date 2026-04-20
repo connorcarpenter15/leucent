@@ -6,7 +6,7 @@
     "watchPatterns": ["apps/realtime-server/**"]
   },
   "deploy": {
-    "startCommand": "/app/bleucent-realtime",
+    "startCommand": "/app/leucent-realtime",
     "healthcheckPath": "/health",
     "healthcheckTimeout": 30,
     "restartPolicyType": "ON_FAILURE",

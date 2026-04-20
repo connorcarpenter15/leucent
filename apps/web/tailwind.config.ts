@@ -1,5 +1,5 @@
 import type { Config } from 'tailwindcss';
-import preset from '@bleucent/ui/tailwind-preset';
+import preset from '@leucent/ui/tailwind-preset';
 import typography from '@tailwindcss/typography';
 
 const config: Config = {

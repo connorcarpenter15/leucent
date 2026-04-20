@@ -1,5 +1,5 @@
 [project]
-name = "bleucent-sandbox-provisioner"
+name = "leucent-sandbox-provisioner"
 version = "0.0.0"
 description = "Per-interview Docker sandbox + Neon branch lifecycle service."
 requires-python = ">=3.11"

@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { eq, and, gt, isNull } from 'drizzle-orm';
-import { Logo } from '@bleucent/ui';
-import { schema } from '@bleucent/db';
+import { Logo } from '@leucent/ui';
+import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { hashInviteToken } from '@/lib/invite-token';
 
@@ -52,7 +52,7 @@ export default async function JoinPage({ params }: { params: Promise<{ token: st
 
   const candidateId = `cand_${crypto.randomUUID()}`;
   (await cookies()).set({
-    name: `bleucent_candidate_${invite.interviewId}`,
+    name: `leucent_candidate_${invite.interviewId}`,
     value: candidateId,
     httpOnly: true,
     sameSite: 'lax',

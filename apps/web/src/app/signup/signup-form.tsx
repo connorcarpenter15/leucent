@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button, Field, Input } from '@bleucent/ui';
+import { Button, Field, Input } from '@leucent/ui';
 import { authClient, signUp } from '@/lib/auth-client';
 
 function slugify(input: string): string {

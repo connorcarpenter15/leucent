@@ -4,14 +4,14 @@
 
 :root {
   color-scheme: dark;
-  --bleucent-accent: #2f74ff;
-  --bleucent-accent-soft: rgba(47, 116, 255, 0.15);
-  --bleucent-accent-strong: #5390ff;
-  --bleucent-surface-950: #09090b;
-  --bleucent-surface-900: #18181b;
-  --bleucent-surface-850: #1f1f23;
-  --bleucent-surface-800: #27272a;
-  --bleucent-surface-700: #3f3f46;
+  --leucent-accent: #2f74ff;
+  --leucent-accent-soft: rgba(47, 116, 255, 0.15);
+  --leucent-accent-strong: #5390ff;
+  --leucent-surface-950: #09090b;
+  --leucent-surface-900: #18181b;
+  --leucent-surface-850: #1f1f23;
+  --leucent-surface-800: #27272a;
+  --leucent-surface-700: #3f3f46;
 }
 
 html,
@@ -30,7 +30,7 @@ a {
 }
 
 /* Subtle grid backdrop, only shown on full-bleed marketing surfaces. */
-.bleucent-grid {
+.leucent-grid {
   background-image:
     linear-gradient(to right, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
@@ -38,7 +38,7 @@ a {
   background-position: -1px -1px;
 }
 
-.bleucent-glow {
+.leucent-glow {
   background-image: radial-gradient(
     60% 50% at 50% 0%,
     rgba(47, 116, 255, 0.2) 0%,
@@ -46,7 +46,7 @@ a {
   );
 }
 
-.bleucent-hairline {
+.leucent-hairline {
   background-image: linear-gradient(
     90deg,
     transparent 0%,
@@ -56,7 +56,7 @@ a {
 }
 
 ::selection {
-  background: var(--bleucent-accent);
+  background: var(--leucent-accent);
   color: white;
 }
 
@@ -93,7 +93,7 @@ a {
   stroke: rgba(132, 132, 142, 0.6);
 }
 .react-flow__edge.selected .react-flow__edge-path {
-  stroke: var(--bleucent-accent);
+  stroke: var(--leucent-accent);
 }
 
 .react-flow__controls,

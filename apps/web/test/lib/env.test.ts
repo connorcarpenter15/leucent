@@ -67,6 +67,22 @@ describe('env()', () => {
     expect(() => env()).toThrow(/Invalid environment configuration/);
   });
 
+  it('does not throw during `next build` even when required vars are missing', async () => {
+    clearRequiredEnv();
+    process.env.NODE_ENV = 'production';
+    process.env.NEXT_PHASE = 'phase-production-build';
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    try {
+      const { env } = await import('../../src/lib/env');
+      const e = env();
+      expect(e.DATABASE_URL).toMatch(/^postgres:\/\//);
+      expect(e.BETTER_AUTH_URL).toBe('http://localhost:3000');
+      expect(warn).toHaveBeenCalled();
+    } finally {
+      delete process.env.NEXT_PHASE;
+    }
+  });
+
   it('caches the result across calls', async () => {
     clearRequiredEnv();
     vi.spyOn(console, 'warn').mockImplementation(() => {});

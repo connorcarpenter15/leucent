@@ -38,7 +38,7 @@ const defaultColumns: FooterColumn[] = [
     heading: 'Company',
     links: [
       { href: '/signup', label: 'Get a demo' },
-      { href: 'mailto:hello@bleucent.dev', label: 'Contact', external: true },
+      { href: 'mailto:hello@leucent.dev', label: 'Contact', external: true },
     ],
   },
 ];
@@ -61,7 +61,7 @@ export function SiteFooter({
         className,
       )}
     >
-      <div className="bleucent-hairline absolute inset-x-0 top-0 h-px opacity-50" />
+      <div className="leucent-hairline absolute inset-x-0 top-0 h-px opacity-50" />
       <Container size="xl" className="py-14">
         <div className="grid grid-cols-2 gap-10 md:grid-cols-5">
           <div className="col-span-2 flex flex-col gap-3">
@@ -93,7 +93,7 @@ export function SiteFooter({
         {trailing && <div className="mt-10">{trailing}</div>}
 
         <div className="mt-10 flex flex-col items-start justify-between gap-3 border-t border-surface-800/80 pt-6 text-xs text-surface-500 md:flex-row md:items-center">
-          <span>© {new Date().getFullYear()} Bleucent. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} Leucent. All rights reserved.</span>
           <div className="flex items-center gap-4">
             <span className="inline-flex items-center gap-2">
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-accent-500 shadow-[0_0_6px_rgba(47,116,255,0.8)]" />

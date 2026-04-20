@@ -1,4 +1,4 @@
-# Bleucent — deployment & infrastructure
+# Leucent — deployment & infrastructure
 
 This document is the runbook for taking the monorepo from `pnpm dev` to a
 publicly reachable interview platform. It assumes Vercel for the Next.js app
@@ -42,7 +42,7 @@ multi-tenant DB plus the per-interview branches.
 
 1.  **Neon project**: create one project. Note the project id and the parent
     branch id (`main`). Generate an API key and put it in `NEON_API_KEY`.
-2.  **S3 bucket** (or R2): one bucket, e.g. `bleucent-replays`. Generate an
+2.  **S3 bucket** (or R2): one bucket, e.g. `leucent-replays`. Generate an
     access key pair and write `S3_*` env vars.
 3.  **Vercel project (apps/web)**:
     - Root directory: `apps/web` (uses `vercel.json` install/build commands
@@ -61,13 +61,13 @@ multi-tenant DB plus the per-interview branches.
       Docker host. On Railway use a private Docker-in-Docker service or a
       dedicated VM accessed via `DOCKER_HOST=tcp://...`.
 5.  **DNS / public URLs**: configure Vercel custom domain
-    (`bleucent.app`) and Railway custom domains for the realtime server
-    (`rt.bleucent.app`) and the AI orchestrator (`ai.bleucent.app`). The
+    (`leucent.app`) and Railway custom domains for the realtime server
+    (`rt.leucent.app`) and the AI orchestrator (`ai.leucent.app`). The
     sandbox provisioner stays on a private network — never expose it.
 6.  **Sandbox base image**: build & push `apps/sandbox-provisioner/sandbox-base.Dockerfile`
     to your registry, then set `SANDBOX_IMAGE` env on the provisioner.
 7.  **Database migration**: from CI or locally with prod creds
-    `pnpm --filter @bleucent/db migrate`.
+    `pnpm --filter @leucent/db migrate`.
 
 ## Smoke test (`scripts/smoke.sh`)
 
@@ -75,9 +75,9 @@ Once everything is up:
 
 ```bash
 ./scripts/smoke.sh \
-  https://bleucent.app \
-  https://rt.bleucent.app \
-  https://ai.bleucent.app
+  https://leucent.app \
+  https://rt.leucent.app \
+  https://ai.leucent.app
 ```
 
 The script walks the full live loop: signs up an interviewer, creates an

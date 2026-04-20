@@ -14,7 +14,7 @@ const sizeMap = {
 } as const;
 
 /**
- * Bleucent brand mark — a sharp accent square with a soft inner glow paired
+ * Leucent brand mark — a sharp accent square with a soft inner glow paired
  * with the wordmark. Use the small variant in dense chrome (workspace
  * headers), the medium variant in the global header, and the large variant on
  * marketing pages.
@@ -37,7 +37,7 @@ export function Logo({ size = 'md', showWordmark = true, className, ...rest }: L
       </span>
       {showWordmark && (
         <span className={cn('font-display font-semibold tracking-tight text-surface-50', s.text)}>
-          Bleucent
+          Leucent
         </span>
       )}
     </span>

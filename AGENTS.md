@@ -1,4 +1,4 @@
-# Bleucent — agent guide
+# Leucent — agent guide
 
 A synchronous multi-tenant interview platform. This file is for AI agents and humans onboarding to the codebase.
 
@@ -34,14 +34,14 @@ pnpm compose:down           # tear down local infra
 Per-app commands (Rust/Python apps expose them through `package.json` so Turbo can drive them):
 
 ```bash
-pnpm --filter @bleucent/realtime-server dev      # cargo run inside apps/realtime-server
-pnpm --filter @bleucent/ai-orchestrator dev      # uv run uvicorn ...
-pnpm --filter @bleucent/sandbox-provisioner dev  # uv run uvicorn ...
+pnpm --filter @leucent/realtime-server dev      # cargo run inside apps/realtime-server
+pnpm --filter @leucent/ai-orchestrator dev      # uv run uvicorn ...
+pnpm --filter @leucent/sandbox-provisioner dev  # uv run uvicorn ...
 ```
 
 ## Conventions
 
-- All cross-service contracts live in `packages/shared-protocol`. When you add a new event kind, update the TS discriminated union, regenerate the JSON schema (`pnpm --filter @bleucent/shared-protocol build`), and update the Rust + Python consumers.
+- All cross-service contracts live in `packages/shared-protocol`. When you add a new event kind, update the TS discriminated union, regenerate the JSON schema (`pnpm --filter @leucent/shared-protocol build`), and update the Rust + Python consumers.
 - The realtime server is the only writer of `interview_event` rows during a live session.
 - The Next.js app is the only writer of `interviewer_constraint` rows.
 - Internal service-to-service routes are namespaced under `/internal/*` and require the `REALTIME_INTERNAL_TOKEN` (or the equivalent token for that service). They are never exposed to browsers.
@@ -54,7 +54,7 @@ pnpm --filter @bleucent/sandbox-provisioner dev  # uv run uvicorn ...
 cp .env.example .env
 pnpm install
 pnpm compose:up         # starts postgres-with-pgvector, minio, dind
-pnpm --filter @bleucent/db migrate
+pnpm --filter @leucent/db migrate
 pnpm dev
 ```
 

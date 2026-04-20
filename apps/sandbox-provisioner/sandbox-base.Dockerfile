@@ -6,10 +6,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
       git curl ca-certificates build-essential nodejs npm postgresql-client \
     && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -ms /bin/bash bleucent
+RUN useradd -ms /bin/bash leucent
 WORKDIR /workspace
-RUN chown bleucent:bleucent /workspace
+RUN chown leucent:leucent /workspace
 
-USER bleucent
+USER leucent
 
 CMD ["sleep", "infinity"]

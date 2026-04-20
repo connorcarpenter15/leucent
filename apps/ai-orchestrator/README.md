@@ -1,4 +1,4 @@
-# @bleucent/ai-orchestrator
+# @leucent/ai-orchestrator
 
 FastAPI + LiteLLM service that:
 

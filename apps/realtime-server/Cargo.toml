@@ -1,11 +1,11 @@
 [package]
-name = "bleucent-realtime"
+name = "leucent-realtime"
 version = "0.1.0"
 edition = "2021"
 publish = false
 
 [[bin]]
-name = "bleucent-realtime"
+name = "leucent-realtime"
 path = "src/main.rs"
 
 [dependencies]

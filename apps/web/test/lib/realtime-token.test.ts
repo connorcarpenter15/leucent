@@ -35,8 +35,8 @@ describe('mintRealtimeToken / verifyRealtimeToken', () => {
     expect(token.split('.').length).toBe(3);
 
     const decoded = decodeJwt(token);
-    expect(decoded.iss).toBe('bleucent-web');
-    expect(decoded.aud).toBe('bleucent-realtime');
+    expect(decoded.iss).toBe('leucent-web');
+    expect(decoded.aud).toBe('leucent-realtime');
     expect(decoded.sub).toBe('user_123');
     expect(decoded.interviewId).toBe(interviewId);
     expect(decoded.role).toBe('candidate');
@@ -69,8 +69,8 @@ describe('mintRealtimeToken / verifyRealtimeToken', () => {
     const wrongSecret = new TextEncoder().encode('an-entirely-different-secret');
     await expect(
       jwtVerify(token, wrongSecret, {
-        issuer: 'bleucent-web',
-        audience: 'bleucent-realtime',
+        issuer: 'leucent-web',
+        audience: 'leucent-realtime',
       }),
     ).rejects.toThrow();
   });
@@ -87,7 +87,7 @@ describe('mintRealtimeToken / verifyRealtimeToken', () => {
     await expect(
       jwtVerify(token, correctSecret, {
         issuer: 'wrong-iss',
-        audience: 'bleucent-realtime',
+        audience: 'leucent-realtime',
       }),
     ).rejects.toThrow();
   });

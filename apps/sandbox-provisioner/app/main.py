@@ -29,10 +29,10 @@ from .docker_runtime import (
 from .neon import create_branch, delete_branch, wait_until_ready
 from .registry import SandboxRecord, registry
 
-log = logging.getLogger("bleucent.sandbox")
+log = logging.getLogger("leucent.sandbox")
 logging.basicConfig(level=logging.INFO)
 
-app = FastAPI(title="Bleucent Sandbox Provisioner", version="0.1.0")
+app = FastAPI(title="Leucent Sandbox Provisioner", version="0.1.0")
 
 
 class CreateBody(BaseModel):

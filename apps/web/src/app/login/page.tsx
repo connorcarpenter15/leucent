@@ -1,4 +1,4 @@
-import { Badge, Card, CardBody, CardHeader, CardTitle, Container } from '@bleucent/ui';
+import { Badge, Card, CardBody, CardHeader, CardTitle, Container } from '@leucent/ui';
 import { SiteShell } from '@/components/SiteShell';
 import { LoginForm } from './login-form';
 
@@ -8,7 +8,7 @@ export default function LoginPage() {
   return (
     <SiteShell>
       <section className="relative overflow-hidden">
-        <div className="bleucent-glow pointer-events-none absolute inset-0" />
+        <div className="leucent-glow pointer-events-none absolute inset-0" />
         <Container size="lg" className="grid gap-10 py-20 md:grid-cols-[1.1fr_1fr]">
           <div className="hidden flex-col justify-center md:flex">
             <Badge tone="accent" dot>

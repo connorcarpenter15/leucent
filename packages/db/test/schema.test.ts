@@ -27,7 +27,7 @@ describe('Drizzle schema', () => {
     expect(getTableName(invitation)).toBe('invitation');
   });
 
-  it('exposes Bleucent domain tables under expected names', () => {
+  it('exposes Leucent domain tables under expected names', () => {
     expect(getTableName(interview)).toBe('interview');
     expect(getTableName(interviewInvite)).toBe('interview_invite');
     expect(getTableName(interviewEvent)).toBe('interview_event');

@@ -1,7 +1,7 @@
 import type { Config } from 'tailwindcss';
 
 /**
- * Shared Tailwind preset. The Bleucent visual language is built from two
+ * Shared Tailwind preset. The Leucent visual language is built from two
  * palettes:
  *
  * - `surface.*` — dark gray neutrals (Tailwind `zinc` with hand-tuned 925/975
@@ -53,7 +53,7 @@ const preset: Partial<Config> = {
           900: '#142f72',
           950: '#0d1d4a',
         },
-        bleucent: {
+        leucent: {
           50: '#eef5ff',
           100: '#d9e8ff',
           200: '#b6d3ff',

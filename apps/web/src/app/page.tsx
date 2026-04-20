@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Badge, Button, Card, CardBody, CardHeader, CardTitle, Container } from '@bleucent/ui';
+import { Badge, Button, Card, CardBody, CardHeader, CardTitle, Container } from '@leucent/ui';
 import { SiteShell } from '@/components/SiteShell';
 
 const FEATURES = [
@@ -39,7 +39,7 @@ const STEPS = [
   {
     n: '01',
     title: 'Schedule',
-    body: 'Create the interview from the dashboard with a title, candidate, and starting AI constraints. Bleucent provisions a Neon branch and mints a single-use join link.',
+    body: 'Create the interview from the dashboard with a title, candidate, and starting AI constraints. Leucent provisions a Neon branch and mints a single-use join link.',
   },
   {
     n: '02',
@@ -68,8 +68,8 @@ export default function HomePage() {
 function Hero() {
   return (
     <section className="relative overflow-hidden border-b border-surface-800/80">
-      <div className="bleucent-glow pointer-events-none absolute inset-0" />
-      <div className="bleucent-grid pointer-events-none absolute inset-0 opacity-60" />
+      <div className="leucent-glow pointer-events-none absolute inset-0" />
+      <div className="leucent-grid pointer-events-none absolute inset-0 opacity-60" />
       <Container size="xl" className="relative py-24 sm:py-32">
         <div className="flex max-w-3xl flex-col items-start gap-6">
           <Badge tone="accent" dot>
@@ -82,7 +82,7 @@ function Hero() {
             </span>
           </h1>
           <p className="max-w-2xl text-lg text-surface-300">
-            Bleucent gives candidates a real IDE, a system-design canvas, and an AI co-pilot — and
+            Leucent gives candidates a real IDE, a system-design canvas, and an AI co-pilot — and
             gives interviewers a live console with perfect playback after the fact. Run the loop you
             actually want, not the one a shared Google Doc forces on you.
           </p>
@@ -283,10 +283,10 @@ function CallToAction() {
     <section className="py-24">
       <Container size="lg">
         <div className="relative overflow-hidden rounded-2xl border border-accent-700/40 bg-surface-900 p-10 text-center shadow-accent-glow">
-          <div className="bleucent-glow pointer-events-none absolute inset-0" />
+          <div className="leucent-glow pointer-events-none absolute inset-0" />
           <div className="relative">
             <h2 className="font-display text-3xl font-semibold tracking-tight text-surface-50 sm:text-4xl">
-              Run your next loop on Bleucent.
+              Run your next loop on Leucent.
             </h2>
             <p className="mx-auto mt-3 max-w-xl text-surface-300">
               Spin up an organization in under a minute, send your first candidate a join link, and

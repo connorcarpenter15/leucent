@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { eq, desc } from 'drizzle-orm';
-import { Badge, Button, Card, CardBody, CardHeader, CardTitle, Container } from '@bleucent/ui';
-import { schema } from '@bleucent/db';
+import { Badge, Button, Card, CardBody, CardHeader, CardTitle, Container } from '@leucent/ui';
+import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
 import { SiteShell } from '@/components/SiteShell';

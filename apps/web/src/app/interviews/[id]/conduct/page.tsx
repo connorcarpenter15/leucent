@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { eq } from 'drizzle-orm';
-import { schema } from '@bleucent/db';
+import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
 import { InterviewerConsole } from './console-client';

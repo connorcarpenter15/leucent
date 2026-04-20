@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY apps/realtime-server/Cargo.toml apps/realtime-server/Cargo.lock* ./
 COPY apps/realtime-server/src ./src
 
-RUN cargo build --release --bin bleucent-realtime
+RUN cargo build --release --bin leucent-realtime
 
 FROM debian:bookworm-slim
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -17,8 +17,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY --from=builder /build/target/release/bleucent-realtime /app/bleucent-realtime
+COPY --from=builder /build/target/release/leucent-realtime /app/leucent-realtime
 
 EXPOSE 4000
 ENV RUST_LOG=info
-CMD ["/app/bleucent-realtime"]
+CMD ["/app/leucent-realtime"]

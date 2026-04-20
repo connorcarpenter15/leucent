@@ -680,7 +680,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "bleucent-realtime"
+name = "leucent-realtime"
 version = "0.1.0"
 dependencies = [
  "anyhow",

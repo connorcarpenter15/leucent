@@ -1,7 +1,7 @@
 [project]
-name = "bleucent-ai-orchestrator"
+name = "leucent-ai-orchestrator"
 version = "0.0.0"
-description = "Bleucent AI orchestrator: LiteLLM-backed prompt assembly + SSE streaming."
+description = "Leucent AI orchestrator: LiteLLM-backed prompt assembly + SSE streaming."
 requires-python = ">=3.11"
 dependencies = [
   "fastapi>=0.115",

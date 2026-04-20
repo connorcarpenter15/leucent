@@ -1,4 +1,4 @@
-# Bleucent
+# Leucent
 
 A synchronous, multi-tenant interview platform: a candidate IDE/canvas, a
 real-time console for interviewers, an AI co-pilot, and an isolated
@@ -12,7 +12,7 @@ See [`AGENTS.md`](./AGENTS.md) for the architecture overview and developer quick
 cp .env.example .env
 pnpm install
 pnpm compose:up
-pnpm --filter @bleucent/db migrate
+pnpm --filter @leucent/db migrate
 pnpm dev
 ```
 
@@ -36,4 +36,4 @@ infra/
 
 ## License
 
-Proprietary — Bleucent.
+Proprietary — Leucent.

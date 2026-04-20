@@ -1,8 +1,8 @@
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 import { eq } from 'drizzle-orm';
-import { Logo } from '@bleucent/ui';
-import { schema } from '@bleucent/db';
+import { Logo } from '@leucent/ui';
+import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { CandidateWorkspace } from './workspace-client';
 
@@ -16,7 +16,7 @@ export default async function CandidateWorkspacePage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const cookie = (await cookies()).get(`bleucent_candidate_${id}`);
+  const cookie = (await cookies()).get(`leucent_candidate_${id}`);
   if (!cookie?.value) {
     return (
       <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">

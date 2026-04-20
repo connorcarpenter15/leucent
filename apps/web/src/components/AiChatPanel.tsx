@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { Button, Input } from '@bleucent/ui';
+import { Button, Input } from '@leucent/ui';
 
 const AI_URL = process.env.NEXT_PUBLIC_AI_ORCHESTRATOR_URL ?? 'http://localhost:5000';
 

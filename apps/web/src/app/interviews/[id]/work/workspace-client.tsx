@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
-import { Badge, Logo } from '@bleucent/ui';
+import { Badge, Logo } from '@leucent/ui';
 import { CodeEditor } from '@/components/CodeEditor';
 import { Canvas } from '@/components/Canvas';
 import { AiChatPanel } from '@/components/AiChatPanel';
@@ -44,7 +44,7 @@ export function CandidateWorkspace({ interviewId, title }: { interviewId: string
   return (
     <div className="flex h-screen flex-col bg-surface-950 text-surface-100">
       <header className="relative z-10 flex items-center justify-between border-b border-surface-800 bg-surface-925/90 px-4 py-2 backdrop-blur">
-        <div className="bleucent-hairline absolute inset-x-0 bottom-0 h-px opacity-40" />
+        <div className="leucent-hairline absolute inset-x-0 bottom-0 h-px opacity-40" />
         <div className="flex items-center gap-3">
           <Logo size="sm" />
           <span className="hidden h-4 w-px bg-surface-700 sm:inline-block" />

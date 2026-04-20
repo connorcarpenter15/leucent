@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Button, Field, Input, Textarea } from '@bleucent/ui';
+import { Button, Field, Input, Textarea } from '@leucent/ui';
 
 export function NewInterviewForm() {
   const router = useRouter();

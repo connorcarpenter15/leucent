@@ -1,8 +1,8 @@
 import { SignJWT, jwtVerify } from 'jose';
 import { env } from './env';
 
-const ISSUER = 'bleucent-web';
-const AUDIENCE = 'bleucent-realtime';
+const ISSUER = 'leucent-web';
+const AUDIENCE = 'leucent-realtime';
 
 function secretKey(): Uint8Array {
   return new TextEncoder().encode(env().REALTIME_JWT_SECRET);

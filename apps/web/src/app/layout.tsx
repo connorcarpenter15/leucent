@@ -16,11 +16,11 @@ const mono = JetBrains_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: 'Bleucent · Synchronous technical interviews',
-    template: '%s · Bleucent',
+    default: 'Leucent · Synchronous technical interviews',
+    template: '%s · Leucent',
   },
   description:
-    'Bleucent runs synchronous, observable technical interviews — a real IDE and system-design canvas for the candidate, a live console for the interviewer, and perfect playback after the fact.',
+    'Leucent runs synchronous, observable technical interviews — a real IDE and system-design canvas for the candidate, a live console for the interviewer, and perfect playback after the fact.',
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'),
 };
 

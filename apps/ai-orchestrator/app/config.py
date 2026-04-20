@@ -21,7 +21,7 @@ class Settings(BaseSettings):
         extra="ignore",
     )
 
-    database_url: str = "postgres://bleucent:bleucent@localhost:5432/bleucent"
+    database_url: str = "postgres://leucent:leucent@localhost:5432/leucent"
     realtime_server_url: str = "http://localhost:4000"
     realtime_internal_token: str = "local-dev-internal-token-change-me"
     web_app_url: str = "http://localhost:3000"

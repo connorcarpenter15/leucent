@@ -29,8 +29,8 @@ pub enum Role {
 pub fn decode_token(token: &str, secret: &str) -> Result<RealtimeClaims, JwtError> {
     let key = DecodingKey::from_secret(secret.as_bytes());
     let mut validation = Validation::new(Algorithm::HS256);
-    validation.set_audience(&["bleucent-realtime"]);
-    validation.set_issuer(&["bleucent-web"]);
+    validation.set_audience(&["leucent-realtime"]);
+    validation.set_issuer(&["leucent-web"]);
     let data = decode::<RealtimeClaims>(token, &key, &validation)?;
     Ok(data.claims)
 }
@@ -65,8 +65,8 @@ mod tests {
             "role": "candidate",
             "iat": iat,
             "exp": iat + 3600,
-            "iss": "bleucent-web",
-            "aud": "bleucent-realtime",
+            "iss": "leucent-web",
+            "aud": "leucent-realtime",
         })
     }
 
@@ -84,7 +84,7 @@ mod tests {
         let claims = decode_token(&token, SECRET).expect("decode should succeed");
         assert_eq!(claims.sub, "user_123");
         assert_eq!(claims.role, Role::Candidate);
-        assert_eq!(claims.iss.as_deref(), Some("bleucent-web"));
+        assert_eq!(claims.iss.as_deref(), Some("leucent-web"));
     }
 
     #[test]
@@ -100,7 +100,7 @@ mod tests {
     #[test]
     fn decode_token_rejects_wrong_audience() {
         let mut claims = valid_claims();
-        claims["aud"] = json!("not-bleucent-realtime");
+        claims["aud"] = json!("not-leucent-realtime");
         let token = mint(claims, SECRET);
         let err = decode_token(&token, SECRET).unwrap_err();
         assert!(matches!(

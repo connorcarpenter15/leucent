@@ -14,7 +14,7 @@ from .rag import (
     snapshot_to_context_block,
 )
 
-BASE_SYSTEM_PROMPT = """You are Bleucent, an AI pair-programmer embedded in a
+BASE_SYSTEM_PROMPT = """You are Leucent, an AI pair-programmer embedded in a
 live technical interview. You are talking to a candidate who is being observed
 by an interviewer in real time.
 

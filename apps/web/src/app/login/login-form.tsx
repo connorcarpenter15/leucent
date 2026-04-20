@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { Button, Field, Input } from '@bleucent/ui';
+import { Button, Field, Input } from '@leucent/ui';
 import { signIn } from '@/lib/auth-client';
 
 export function LoginForm() {

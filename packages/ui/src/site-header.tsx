@@ -45,7 +45,7 @@ export function SiteHeader({
         className,
       )}
     >
-      <div className="bleucent-hairline absolute inset-x-0 bottom-0 h-px opacity-40" />
+      <div className="leucent-hairline absolute inset-x-0 bottom-0 h-px opacity-40" />
       <Container size="xl" className="flex h-14 items-center justify-between gap-6">
         <a href={logoHref} className="group flex items-center gap-2 no-underline">
           <Logo size="md" />

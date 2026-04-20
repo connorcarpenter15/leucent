@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Badge, Button, Logo } from '@bleucent/ui';
+import { Badge, Button, Logo } from '@leucent/ui';
 
 type ReplayEvent = {
   ts: string;
@@ -103,7 +103,7 @@ export function ReplayClient({
   return (
     <div className="flex h-screen flex-col bg-surface-950 text-surface-100">
       <header className="relative z-10 flex items-center justify-between border-b border-surface-800 bg-surface-925/90 px-4 py-2 backdrop-blur">
-        <div className="bleucent-hairline absolute inset-x-0 bottom-0 h-px opacity-40" />
+        <div className="leucent-hairline absolute inset-x-0 bottom-0 h-px opacity-40" />
         <div className="flex items-center gap-3">
           <Logo size="sm" />
           <span className="hidden h-4 w-px bg-surface-700 sm:inline-block" />
@@ -141,7 +141,7 @@ export function ReplayClient({
             setPlaying(false);
           }}
           className="flex-1 accent-accent-500"
-          style={{ accentColor: 'var(--bleucent-accent)' }}
+          style={{ accentColor: 'var(--leucent-accent)' }}
         />
         <span className="w-24 text-right text-xs text-surface-400 tabular-nums">
           {formatMs(cursorMs)} / {formatMs(totalMs)}

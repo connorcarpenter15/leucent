@@ -1,4 +1,4 @@
-# @bleucent/sandbox-provisioner
+# @leucent/sandbox-provisioner
 
 FastAPI service that owns the lifecycle of per-interview Docker sandboxes and
 Neon branches.
@@ -22,7 +22,7 @@ Containers are launched with:
   rules (configurable, default empty).
 - `mem_limit`, `cpu_quota`, `pids_limit`, `read_only=True` rootfs with a
   scoped `/workspace` tmpfs.
-- A non-root `bleucent` user inside the image.
+- A non-root `leucent` user inside the image.
 
 ## Neon readiness
 

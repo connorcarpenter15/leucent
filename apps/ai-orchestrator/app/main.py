@@ -31,11 +31,11 @@ from .config import get_settings
 from .prompt import build_messages
 from .rag import fetch_relevant_chunks
 
-log = logging.getLogger("bleucent.ai")
+log = logging.getLogger("leucent.ai")
 logging.basicConfig(level=logging.INFO)
 
 
-app = FastAPI(title="Bleucent AI Orchestrator", version="0.1.0")
+app = FastAPI(title="Leucent AI Orchestrator", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -150,7 +150,7 @@ async def ai_stream(req: StreamRequest):
     return EventSourceResponse(
         event_source(),
         headers={
-            "X-Bleucent-Stream-Started": datetime.now(UTC).isoformat(),
+            "X-Leucent-Stream-Started": datetime.now(UTC).isoformat(),
         },
     )
 

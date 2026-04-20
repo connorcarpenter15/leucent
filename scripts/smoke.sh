@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# scripts/smoke.sh — end-to-end smoke test for a deployed Bleucent stack.
+# scripts/smoke.sh — end-to-end smoke test for a deployed Leucent stack.
 #
 # Usage:
 #   scripts/smoke.sh https://web.example https://rt.example https://ai.example
@@ -23,12 +23,12 @@ probe() {
   local label="$1"; shift
   local url="$1"; shift
   printf '  %-28s ' "$label"
-  if code=$(curl -s -o /tmp/bleucent_smoke.out -w '%{http_code}' --max-time 10 "$url"); then
+  if code=$(curl -s -o /tmp/leucent_smoke.out -w '%{http_code}' --max-time 10 "$url"); then
     if [[ "$code" == "200" ]]; then
       green "OK ($code)"
     else
       red "FAIL ($code)"
-      sed 's/^/      /' /tmp/bleucent_smoke.out | head -5
+      sed 's/^/      /' /tmp/leucent_smoke.out | head -5
       return 1
     fi
   else
@@ -37,7 +37,7 @@ probe() {
   fi
 }
 
-echo "Bleucent smoke test"
+echo "Leucent smoke test"
 hr
 probe "web /"                  "$WEB/"
 probe "web /login"             "$WEB/login"

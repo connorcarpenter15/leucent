@@ -24,13 +24,21 @@ export type Env = z.infer<typeof schema>;
 
 let cached: Env | undefined;
 
+/** True while `next build` is collecting page data (i.e. module side effects
+ * are being evaluated at build time, not at runtime). In that phase we allow
+ * missing env vars and fall back to dev defaults, because the build should
+ * not require production secrets — they're only needed at request time. */
+const isNextBuildPhase = process.env.NEXT_PHASE === 'phase-production-build';
+
 /** Validates and returns env vars. Logs a warning instead of throwing in dev so
- * the very first `pnpm dev` doesn't crash before the user copies .env.example. */
+ * the very first `pnpm dev` doesn't crash before the user copies .env.example.
+ * Also tolerant during `next build` so deploys don't require env to be
+ * populated on the platform before the very first build succeeds. */
 export function env(): Env {
   if (cached) return cached;
   const parsed = schema.safeParse(process.env);
   if (!parsed.success) {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === 'production' && !isNextBuildPhase) {
       console.error('Invalid environment configuration:', parsed.error.flatten().fieldErrors);
       throw new Error('Invalid environment configuration');
     }
@@ -39,8 +47,7 @@ export function env(): Env {
       parsed.error.flatten().fieldErrors,
     );
     cached = {
-      DATABASE_URL:
-        process.env.DATABASE_URL ?? 'postgres://bleucent:bleucent@localhost:5432/bleucent',
+      DATABASE_URL: process.env.DATABASE_URL ?? 'postgres://leucent:leucent@localhost:5432/leucent',
       BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET ?? 'dev-secret-change-me-32-bytes-long!',
       BETTER_AUTH_URL: process.env.BETTER_AUTH_URL ?? 'http://localhost:3000',
       REALTIME_SERVER_URL: process.env.REALTIME_SERVER_URL ?? 'http://localhost:4000',

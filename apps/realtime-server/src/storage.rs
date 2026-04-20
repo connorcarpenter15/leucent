@@ -20,7 +20,7 @@ impl ReplayStore {
             cfg.s3_access_key_id.clone(),
             cfg.s3_secret_access_key.clone(),
         ) {
-            let creds = Credentials::new(key, secret, None, None, "bleucent");
+            let creds = Credentials::new(key, secret, None, None, "leucent");
             let conf_loader = aws_config::defaults(aws_config::BehaviorVersion::latest())
                 .region(Region::new(cfg.s3_region.clone()))
                 .credentials_provider(creds);
