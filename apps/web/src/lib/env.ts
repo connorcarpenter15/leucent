@@ -73,6 +73,13 @@ export function env(): Env {
       '[env] Some required env vars are missing. Falling back to dev defaults where possible.',
       fieldErrors,
     );
+    if (fieldErrors.NEON_AUTH_BASE_URL || fieldErrors.NEON_AUTH_COOKIE_SECRET) {
+      console.warn(
+        '[env] Until you set real Neon Auth values in apps/web/.env.local, ' +
+          'getSession() cannot reach a live auth server — pages still load; ' +
+          'you will appear signed out.',
+      );
+    }
     cached = {
       DATABASE_URL: process.env.DATABASE_URL ?? 'postgres://leucent:leucent@localhost:5432/leucent',
       NEON_AUTH_BASE_URL: process.env.NEON_AUTH_BASE_URL ?? 'http://localhost:9999/dev-neon-auth',

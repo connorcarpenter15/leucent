@@ -1,10 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="Leucent">
-  <!--
-    Favicon rendition of <Logo /> from @leucent/ui. Must stay visually
-    aligned with packages/ui/src/logo.tsx: accent-gradient rounded square
-    (#2f74ff ’ #5390ff, 135deg) with a soft inner glow and a slightly
-    luminescent white dot at the center.
-  -->
   <defs>
     <linearGradient id="leucent-mark" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
       <stop offset="0%" stop-color="#2f74ff" />
