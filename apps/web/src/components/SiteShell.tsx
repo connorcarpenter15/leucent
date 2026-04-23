@@ -9,6 +9,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
     heading: 'Product',
     links: [
       { href: '/dashboard', label: 'Dashboard' },
+      { href: '/settings', label: 'Settings' },
       { href: '/interviews/new', label: 'Schedule interview' },
       { href: '/login', label: 'Sign in' },
     ],
@@ -33,7 +34,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
 type SiteShellProps = {
   children: ReactNode;
   /** Highlights the active link in the header. */
-  activeNav?: 'dashboard' | 'new' | 'home';
+  activeNav?: 'dashboard' | 'new' | 'home' | 'settings';
   /** Drop the footer (used by full-screen workspace pages that opt-in). */
   hideFooter?: boolean;
   /** Render a minimal logo-only header (used on auth pages). */
@@ -58,6 +59,7 @@ export async function SiteShell({
   const links: NavLink[] = signedIn
     ? [
         { href: '/dashboard', label: 'Dashboard', active: activeNav === 'dashboard' },
+        { href: '/settings', label: 'Settings', active: activeNav === 'settings' },
         { href: '/interviews/new', label: 'New interview', active: activeNav === 'new' },
       ]
     : [

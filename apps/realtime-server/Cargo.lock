@@ -680,39 +680,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "leucent-realtime"
-version = "0.1.0"
-dependencies = [
- "anyhow",
- "aws-config",
- "aws-credential-types",
- "aws-sdk-s3",
- "axum",
- "bytes",
- "chrono",
- "dashmap",
- "dotenvy",
- "futures",
- "futures-util",
- "jsonwebtoken",
- "once_cell",
- "reqwest",
- "serde",
- "serde_json",
- "sqlx",
- "thiserror 1.0.69",
- "tokio",
- "tower",
- "tower-http",
- "tracing",
- "tracing-subscriber",
- "url",
- "uuid",
- "y-sync",
- "yrs 0.21.3",
-]
-
-[[package]]
 name = "block-buffer"
 version = "0.10.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1825,6 +1792,39 @@ name = "leb128fmt"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "09edd9e8b54e49e587e4f6295a7d29c3ea94d469cb40ab8ca70b288248a81db2"
+
+[[package]]
+name = "leucent-realtime"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "aws-config",
+ "aws-credential-types",
+ "aws-sdk-s3",
+ "axum",
+ "bytes",
+ "chrono",
+ "dashmap",
+ "dotenvy",
+ "futures",
+ "futures-util",
+ "jsonwebtoken",
+ "once_cell",
+ "reqwest",
+ "serde",
+ "serde_json",
+ "sqlx",
+ "thiserror 1.0.69",
+ "tokio",
+ "tower",
+ "tower-http",
+ "tracing",
+ "tracing-subscriber",
+ "url",
+ "uuid",
+ "y-sync",
+ "yrs 0.21.3",
+]
 
 [[package]]
 name = "libc"

@@ -18,3 +18,5 @@ export const signOut = authClient.signOut;
 export const signUp = authClient.signUp;
 export const useSession = authClient.useSession;
 export const useActiveOrganization = authClient.useActiveOrganization;
+export const useListOrganizations = authClient.useListOrganizations;
+export const useActiveMemberRole = authClient.useActiveMemberRole;
