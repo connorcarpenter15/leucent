@@ -246,8 +246,8 @@ export function OrganizationSettingsPanel() {
                     />
                   </Field>
                   <Field
-                    label="URL slug"
-                    hint="Lowercase letters, numbers, and hyphens. Used in URLs and integrations."
+                    label="Short address for your workspace"
+                    hint="Use lowercase letters, numbers, and hyphens only. This becomes part of links your team may share internally."
                   >
                     <Input
                       value={orgSlug}

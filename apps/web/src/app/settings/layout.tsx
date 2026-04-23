@@ -21,7 +21,7 @@ export default async function SettingsLayout({ children }: { children: ReactNode
             Settings
           </h1>
           <p className="mt-1 text-sm text-surface-400">
-            Your profile and the workspace used for interviews and the dashboard.
+            Your personal details and the team workspace used for interviews and your dashboard.
           </p>
         </header>
         <div className="flex flex-col gap-8 lg:flex-row lg:gap-10">

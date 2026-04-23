@@ -30,7 +30,7 @@ const defaultColumns: FooterColumn[] = [
     heading: 'Resources',
     links: [
       { href: '#how-it-works', label: 'How it works' },
-      { href: '#features', label: 'Features' },
+      { href: '/features', label: 'Features' },
       { href: '#security', label: 'Security' },
     ],
   },
@@ -50,7 +50,7 @@ const defaultColumns: FooterColumn[] = [
  */
 export function SiteFooter({
   columns = defaultColumns,
-  tagline = 'Synchronous, observable technical interviews.',
+  tagline = 'Live technical interviews where you can see candidates think.',
   trailing,
   className,
 }: SiteFooterProps) {

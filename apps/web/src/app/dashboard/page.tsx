@@ -38,7 +38,7 @@ export default async function DashboardPage() {
             </h1>
             <p className="mt-1 text-sm text-surface-400">
               Signed in as <span className="text-surface-200">{session.user.email}</span>
-              {orgId ? '' : ' — finish creating an organization to schedule interviews.'}
+              {orgId ? '' : ' — set up a team workspace before you can schedule interviews.'}
             </p>
           </div>
           <Link href="/interviews/new">

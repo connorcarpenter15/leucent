@@ -38,7 +38,7 @@ export default async function JoinPage({ params }: { params: Promise<{ token: st
             This link is no longer valid.
           </h1>
           <p className="mt-2 text-sm text-surface-400">
-            Invite tokens are single-use. Ask your interviewer to send a new link.
+            Each interview link works once. Ask your interviewer to send a new link.
           </p>
         </div>
       </main>

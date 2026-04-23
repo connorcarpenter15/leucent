@@ -18,17 +18,17 @@ export default function SignupPage() {
               Get started
             </Badge>
             <h1 className="mt-4 font-display text-4xl font-semibold tracking-tight text-surface-50">
-              Spin up an organization in under a minute.
+              Create your team workspace in a minute.
             </h1>
             <p className="mt-3 max-w-md text-surface-400">
-              You&apos;ll get a dashboard, an invite-link generator, and a fresh Neon branch per
-              interview the moment you create one.
+              You get a dashboard, simple candidate links, and a fresh private workspace for each
+              interview the moment you schedule it.
             </p>
             <ul className="mt-8 flex flex-col gap-3 text-sm text-surface-300">
               {[
                 'Free to try, no credit card required',
-                'One workspace per interview, torn down at end',
-                'Neon Auth organizations — your data, your tenants',
+                'Each interview gets its own session that ends when you end it',
+                'Your team shares one workspace; candidates only see their own link',
               ].map((line) => (
                 <li key={line} className="flex items-start gap-3">
                   <span className="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-accent-500 shadow-[0_0_6px_rgba(47,116,255,0.8)]" />

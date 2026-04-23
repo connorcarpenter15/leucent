@@ -21,18 +21,18 @@ export default function LoginPage() {
               Welcome back.
             </h1>
             <p className="mt-3 max-w-md text-surface-400">
-              Sign in to open your dashboard, schedule a new loop, or jump into the live console for
-              an interview already in flight.
+              Open your dashboard, schedule an interview, or join one that is already running—all
+              from one place.
             </p>
             <ul className="mt-8 flex flex-col gap-3 text-sm text-surface-300">
               {[
-                'Live mirror of the candidate&apos;s editor and canvas',
-                'Streaming AI prompts + responses, in chronological order',
-                'Inject constraints mid-interview without breaking the flow',
+                'See the same code and drawings the candidate sees, as they work',
+                'Follow assistant messages in order, like a simple transcript',
+                'Adjust the exercise with short notes instead of interrupting out loud',
               ].map((line) => (
                 <li key={line} className="flex items-start gap-3">
                   <span className="mt-1 h-1.5 w-1.5 flex-none rounded-full bg-accent-500 shadow-[0_0_6px_rgba(47,116,255,0.8)]" />
-                  <span dangerouslySetInnerHTML={{ __html: line }} />
+                  <span>{line}</span>
                 </li>
               ))}
             </ul>
