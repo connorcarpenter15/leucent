@@ -12,6 +12,9 @@ const mono = JetBrains_Mono({
   subsets: ['latin'],
   variable: '--font-mono',
   display: 'swap',
+  // Avoid eager preload for monospace; it is not needed for first paint and triggers
+  // Chrome "preloaded but not used" when the home shell is mostly `font-sans`.
+  preload: false,
 });
 
 export const metadata: Metadata = {
@@ -26,8 +29,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`dark ${inter.variable} ${mono.variable}`}>
-      <body className="min-h-screen bg-surface-950 font-sans antialiased">{children}</body>
+    <html lang="en" className={`dark ${inter.variable} ${mono.variable}`} suppressHydrationWarning>
+      <body className="min-h-screen bg-surface-950 font-sans antialiased" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }

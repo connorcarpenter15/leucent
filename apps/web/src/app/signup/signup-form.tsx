@@ -64,11 +64,27 @@ export function SignupForm() {
       const orgResult = await authClient.organization.create({
         name: orgName.trim() || `${name.trim()}'s team`,
         slug: slugify(orgName || name) || `org-${Date.now()}`,
+        keepCurrentActiveOrganization: false,
       });
       if (orgResult.error) {
         setError(
           `Account created but organization setup failed: ${messageFromAuthError(
             orgResult.error,
+            'Unknown error',
+          )}`,
+        );
+        return;
+      }
+      const orgId = orgResult.data?.id;
+      if (!orgId) {
+        setError('Account created but organization id was missing. Try signing in again.');
+        return;
+      }
+      const activeResult = await authClient.organization.setActive({ organizationId: orgId });
+      if (activeResult.error) {
+        setError(
+          `Account created but activating the organization failed: ${messageFromAuthError(
+            activeResult.error,
             'Unknown error',
           )}`,
         );

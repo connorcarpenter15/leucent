@@ -49,12 +49,19 @@ export async function createSandbox(args: {
   return (await res.json()) as SandboxCreateResponse;
 }
 
+const DESTROY_SANDBOX_TIMEOUT_MS = 15_000;
+
 export async function destroySandbox(sandboxId: string): Promise<void> {
   const base = requireSandboxUrl();
-  await fetch(`${base}/sandboxes/${sandboxId}`, {
+  const res = await fetch(`${base}/sandboxes/${sandboxId}`, {
     method: 'DELETE',
     headers: { authorization: `Bearer ${env().REALTIME_INTERNAL_TOKEN}` },
+    signal: AbortSignal.timeout(DESTROY_SANDBOX_TIMEOUT_MS),
   });
+  if (!res.ok) {
+    const detail = await safeText(res);
+    throw new Error(`sandbox destroy returned ${res.status}: ${detail}`);
+  }
 }
 
 async function safeText(res: Response): Promise<string> {

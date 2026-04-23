@@ -7,6 +7,7 @@ import { Button, Field, Input } from '@leucent/ui';
 import { PasswordInput } from '@/components/PasswordInput';
 import { signIn } from '@/lib/auth-client';
 import { messageFromAuthError } from '@/lib/auth-errors';
+import { ensureActiveOrganization } from '@/lib/ensure-active-organization';
 
 export function LoginForm() {
   const router = useRouter();
@@ -28,6 +29,11 @@ export function LoginForm() {
             'Could not sign in. Check your email and password and try again.',
           ),
         );
+        return;
+      }
+      const orgGate = await ensureActiveOrganization();
+      if (!orgGate.ok) {
+        setError(orgGate.message);
         return;
       }
       router.push('/dashboard');

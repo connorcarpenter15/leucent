@@ -175,7 +175,7 @@ export function InterviewerConsole({
       const res = await fetch(`/api/interviews/${interviewId}/end`, { method: 'POST' });
       if (!res.ok) throw new Error(await res.text());
       setStatus('completed');
-      router.refresh();
+      router.replace('/dashboard');
     } catch (err) {
       console.error(err);
       alert(`Failed to end interview: ${(err as Error).message}`);

@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Field, Input, Textarea } from '@leucent/ui';
+import { ensureActiveOrganization } from '@/lib/ensure-active-organization';
 
 export function NewInterviewForm() {
   const router = useRouter();
@@ -19,6 +20,12 @@ export function NewInterviewForm() {
     e.preventDefault();
     setError(null);
     setCreating(true);
+    const orgGate = await ensureActiveOrganization();
+    if (!orgGate.ok) {
+      setCreating(false);
+      setError(orgGate.message);
+      return;
+    }
     const res = await fetch('/api/interviews', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
