@@ -17,7 +17,9 @@ export default async function SettingsLayout({ children }: { children: ReactNode
     <SiteShell activeNav="settings">
       <Container size="lg" className="py-10">
         <header className="mb-8">
-          <h1 className="font-display text-3xl font-semibold tracking-tight text-surface-50">Settings</h1>
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-surface-50">
+            Settings
+          </h1>
           <p className="mt-1 text-sm text-surface-400">
             Your profile and the workspace used for interviews and the dashboard.
           </p>

@@ -3,16 +3,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  CardTitle,
-  Field,
-  Input,
-} from '@leucent/ui';
+import { Badge, Button, Card, CardBody, CardHeader, CardTitle, Field, Input } from '@leucent/ui';
 import {
   authClient,
   useActiveMemberRole,
@@ -79,9 +70,7 @@ export function OrganizationSettingsPanel() {
     try {
       const res = await authClient.organization.setActive({ organizationId });
       if (res.error) {
-        setSwitchError(
-          messageFromAuthError(res.error, 'Could not switch workspace. Try again.'),
-        );
+        setSwitchError(messageFromAuthError(res.error, 'Could not switch workspace. Try again.'));
         return;
       }
       await refetchOrgs();
@@ -299,7 +288,10 @@ export function OrganizationSettingsPanel() {
               ) : (
                 <ul className="divide-y divide-surface-800">
                   {activeOrg.members.map((m) => (
-                    <li key={m.id} className="flex flex-wrap items-baseline justify-between gap-2 py-2 text-sm">
+                    <li
+                      key={m.id}
+                      className="flex flex-wrap items-baseline justify-between gap-2 py-2 text-sm"
+                    >
                       <div>
                         <div className="text-surface-100">{m.user.name}</div>
                         <div className="text-xs text-surface-500">{m.user.email}</div>

@@ -67,7 +67,10 @@ export function UserSettingsPanel() {
       });
       if (res.error) {
         setPwError(
-          messageFromAuthError(res.error, 'Could not change password. Check your current password.'),
+          messageFromAuthError(
+            res.error,
+            'Could not change password. Check your current password.',
+          ),
         );
         return;
       }
