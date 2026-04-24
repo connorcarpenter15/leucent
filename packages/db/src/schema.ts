@@ -73,9 +73,11 @@ export const interview = pgTable(
     interviewerUserId: uuid('interviewer_user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'restrict' }),
-    candidateName: text('candidate_name').notNull(),
-    candidateEmail: text('candidate_email').notNull(),
+    candidateName: text('candidate_name'),
+    candidateEmail: text('candidate_email'),
     title: text('title').notNull(),
+    /** Provisioner template key (allowlisted server-side), e.g. nodejs, python_ds, rust */
+    sandboxTemplate: text('sandbox_template').notNull().default('nodejs'),
     status: interviewStatus('status').notNull().default('scheduled'),
     startedAt: timestamp('started_at', { withTimezone: true }),
     endedAt: timestamp('ended_at', { withTimezone: true }),
@@ -101,6 +103,8 @@ export const interviewInvite = pgTable(
       .notNull()
       .references(() => interview.id, { onDelete: 'cascade' }),
     tokenHash: text('token_hash').notNull().unique(),
+    /** Raw `/join/{token}` segment; server-only, enables reconstructing join URLs for interviewers */
+    urlToken: text('url_token').unique(),
     expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
     consumedAt: timestamp('consumed_at', { withTimezone: true }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),

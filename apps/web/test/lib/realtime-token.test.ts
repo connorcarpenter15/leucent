@@ -13,7 +13,7 @@ beforeAll(() => {
   process.env.REALTIME_INTERNAL_TOKEN = 'internal-token';
   process.env.REALTIME_JWT_SECRET = SECRET;
   process.env.AI_ORCHESTRATOR_URL = 'http://localhost:5050';
-  process.env.SANDBOX_PROVISIONER_URL = 'http://localhost:6000';
+  process.env.SANDBOX_PROVISIONER_URL = 'http://localhost:6500';
   process.env.NEXT_PUBLIC_REALTIME_WS_URL = 'ws://localhost:4000';
 });
 

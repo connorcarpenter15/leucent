@@ -200,7 +200,7 @@ DATABASE_URL=${NEON_DATABASE_URL}
 REALTIME_INTERNAL_TOKEN=${REALTIME_INTERNAL_TOKEN}
 REALTIME_SERVER_URL=https://realtime.up.railway.app
 WEB_APP_URL=https://leucent.app
-SANDBOX_PROVISIONER_URL=http://sandbox-provisioner.railway.internal:6000
+SANDBOX_PROVISIONER_URL=http://sandbox-provisioner.railway.internal:6500
 LITELLM_DEFAULT_MODEL=gpt-4o-mini
 OPENAI_API_KEY=${OPENAI_API_KEY}
 EMBEDDING_MODEL=text-embedding-3-small
@@ -226,7 +226,9 @@ SANDBOX_IMAGE=ghcr.io/${YOUR_GH_ORG}/sandbox-base:latest
 SANDBOX_MEM_LIMIT=1g
 SANDBOX_CPU_QUOTA=50000
 SANDBOX_PIDS_LIMIT=256
-PORT=6000
+# Avoid 6000: it's on the WHATWG Fetch "bad ports" blocklist (X11), so the
+# web app's Node fetch refuses to call it (cause: "bad port").
+PORT=6500
 ```
 
 The sandbox provisioner needs a Docker socket. Either deploy a sibling
@@ -249,7 +251,7 @@ railway logs --service realtime
 
 `/health` should return `200` on each public service. `sandbox-provisioner`
 has no public URL — verify by `railway run --service sandbox-provisioner curl
-localhost:6000/health`.
+localhost:6500/health`.
 
 ---
 

@@ -12,5 +12,5 @@ RUN pip install --no-cache-dir --upgrade pip && \
 
 COPY app ./app
 
-EXPOSE 6000
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "6000"]
+EXPOSE 6500
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "6500"]

@@ -10,8 +10,15 @@ export const dynamic = 'force-dynamic';
 /** Interviewer console. Live-mirrors the candidate's editor and
  * canvas, surfaces telemetry as an action log, accepts new AI constraints,
  * shows exec output, and exposes the canonical End Interview button. */
-export default async function ConductPage({ params }: { params: Promise<{ id: string }> }) {
+export default async function ConductPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ instant?: string }>;
+}) {
   const { id } = await params;
+  const sp = await searchParams;
   const session = await getSession();
   if (!session?.user) redirect('/login');
 
@@ -32,6 +39,7 @@ export default async function ConductPage({ params }: { params: Promise<{ id: st
       title={iv.title}
       candidateName={iv.candidateName}
       status={iv.status}
+      initialAutoStart={sp.instant === '1'}
       initialConstraints={constraints.map((c) => ({
         id: c.id,
         text: c.text,

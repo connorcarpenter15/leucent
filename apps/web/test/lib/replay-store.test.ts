@@ -42,7 +42,7 @@ beforeEach(() => {
     REALTIME_INTERNAL_TOKEN: 'internal',
     REALTIME_JWT_SECRET: 'jwt-secret-very-long-enough',
     AI_ORCHESTRATOR_URL: 'http://localhost:5050',
-    SANDBOX_PROVISIONER_URL: 'http://localhost:6000',
+    SANDBOX_PROVISIONER_URL: 'http://localhost:6500',
     NEXT_PUBLIC_REALTIME_WS_URL: 'ws://localhost:4000',
   };
 });

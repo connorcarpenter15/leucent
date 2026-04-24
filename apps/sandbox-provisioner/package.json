@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "predev": "sh ../../scripts/bootstrap-python-venv.sh .",
-    "dev": "./.venv/bin/python -m uvicorn app.main:app --reload --host 0.0.0.0 --port ${PORT:-6000}",
+    "dev": "./.venv/bin/python -m uvicorn app.main:app --reload --host 0.0.0.0 --port ${PORT:-6500}",
     "build": "python -m compileall app",
     "lint": "ruff check app",
     "typecheck": "echo 'mypy skipped (optional)'",

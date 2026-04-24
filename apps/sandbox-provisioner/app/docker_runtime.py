@@ -50,9 +50,12 @@ def create_container(
     *,
     interview_id: str,
     database_url: str,
+    image_override: str | None = None,
 ) -> ContainerHandle:
     s = get_settings()
     client = _client()
+
+    image = image_override or s.sandbox_image
 
     name = f"leucent-sbx-{interview_id[:8]}"
     extra_hosts = {}
@@ -62,7 +65,7 @@ def create_container(
             extra_hosts[host] = ip
 
     container = client.containers.run(
-        image=s.sandbox_image,
+        image=image,
         name=name,
         detach=True,
         network_mode="none" if not extra_hosts else "bridge",

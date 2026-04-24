@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Badge, Logo } from '@leucent/ui';
 import { CodeEditor } from '@/components/CodeEditor';
 import { Canvas } from '@/components/Canvas';
@@ -8,7 +8,74 @@ import { AiChatPanel } from '@/components/AiChatPanel';
 import { useRealtimeToken } from '@/lib/use-realtime-token';
 import { useEventsChannel, useYjsRoom } from '@/lib/yjs-provider';
 
-export function CandidateWorkspace({ interviewId, title }: { interviewId: string; title: string }) {
+export function CandidateWorkspace({
+  interviewId,
+  title,
+  initialStatus,
+}: {
+  interviewId: string;
+  title: string;
+  initialStatus: string;
+}) {
+  const [sessionStatus, setSessionStatus] = useState(initialStatus);
+
+  useEffect(() => {
+    if (sessionStatus !== 'scheduled') return;
+    let cancelled = false;
+
+    async function poll() {
+      try {
+        const res = await fetch(`/api/interviews/${interviewId}/status`);
+        if (!res.ok || cancelled) return;
+        const data = (await res.json()) as { status: string };
+        if (data.status === 'live') setSessionStatus('live');
+      } catch {
+        /* ignore transient errors */
+      }
+    }
+
+    poll();
+    const interval = setInterval(poll, 3000);
+    return () => {
+      cancelled = true;
+      clearInterval(interval);
+    };
+  }, [interviewId, sessionStatus]);
+
+  if (sessionStatus === 'scheduled') {
+    return <WaitingRoom title={title} />;
+  }
+
+  return <CandidateWorkspaceActive interviewId={interviewId} title={title} />;
+}
+
+function WaitingRoom({ title }: { title: string }) {
+  return (
+    <div className="flex min-h-screen flex-col bg-surface-950 text-surface-100">
+      <header className="relative z-10 border-b border-surface-800 bg-surface-925/90 px-4 py-3 backdrop-blur">
+        <div className="leucent-hairline absolute inset-x-0 bottom-0 h-px opacity-40" />
+        <div className="flex items-center gap-3">
+          <Logo size="sm" />
+          <span className="text-sm font-semibold text-surface-50">{title}</span>
+          <Badge tone="info" dot>
+            waiting
+          </Badge>
+        </div>
+      </header>
+      <main className="flex flex-1 flex-col items-center justify-center px-6 text-center">
+        <p className="font-display text-xl font-semibold text-surface-50">
+          Waiting for your interviewer to start the session
+        </p>
+        <p className="mt-3 max-w-md text-sm text-surface-400">
+          You can keep this tab open. When the interviewer starts the interview, your workspace will
+          load automatically.
+        </p>
+      </main>
+    </div>
+  );
+}
+
+function CandidateWorkspaceActive({ interviewId, title }: { interviewId: string; title: string }) {
   const { token, error: tokenError } = useRealtimeToken(interviewId);
   const { doc, provider, synced } = useYjsRoom(interviewId, token);
 

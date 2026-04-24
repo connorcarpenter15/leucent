@@ -17,6 +17,7 @@ from fastapi import Depends, FastAPI, HTTPException, status
 from pydantic import BaseModel, Field
 
 from .auth import require_internal
+from .config import get_settings, resolve_sandbox_image
 from .docker_runtime import (
     container_ready,
     create_container,
@@ -38,6 +39,7 @@ app = FastAPI(title="Leucent Sandbox Provisioner", version="0.1.0")
 class CreateBody(BaseModel):
     interview_id: str
     organization_id: str | None = None
+    sandbox_template: str | None = None
 
 
 class CreateResponse(BaseModel):
@@ -74,6 +76,12 @@ async def create_sandbox(body: CreateBody) -> CreateResponse:
     sandbox_id = uuid.uuid4().hex
     log.info("provisioning sandbox %s for interview %s", sandbox_id, body.interview_id)
 
+    settings = get_settings()
+    resolved_image = resolve_sandbox_image(
+        body.sandbox_template,
+        settings.sandbox_image,
+    )
+
     branch = await create_branch(body.interview_id)
     try:
         await wait_until_ready(branch.database_url)
@@ -89,6 +97,7 @@ async def create_sandbox(body: CreateBody) -> CreateResponse:
         handle = create_container(
             interview_id=body.interview_id,
             database_url=branch.database_url,
+            image_override=resolved_image,
         )
         await container_ready(handle.container_id)
     except Exception as exc:

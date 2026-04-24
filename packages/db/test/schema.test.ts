@@ -53,6 +53,7 @@ describe('Drizzle schema', () => {
       'candidateName',
       'candidateEmail',
       'title',
+      'sandboxTemplate',
       'status',
       'startedAt',
       'endedAt',
@@ -67,11 +68,12 @@ describe('Drizzle schema', () => {
     }
   });
 
-  it('stores invite tokens only as a hash', () => {
+  it('stores invite hash plus server-side url token segment for join URL reconstruction', () => {
     const cols = getTableColumns(interviewInvite);
     expect(cols).toHaveProperty('tokenHash');
-    expect(cols).not.toHaveProperty('token');
+    expect(cols).toHaveProperty('urlToken');
     expect((cols.tokenHash as { name: string }).name).toBe('token_hash');
+    expect((cols.urlToken as { name: string }).name).toBe('url_token');
   });
 
   it('models event log columns required for replay (kind, actor, payload, ts, seq)', () => {
