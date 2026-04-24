@@ -59,8 +59,9 @@ export async function SiteShell({
   const links: NavLink[] = signedIn
     ? [
         { href: '/dashboard', label: 'Dashboard', active: activeNav === 'dashboard' },
-        { href: '/settings', label: 'Settings', active: activeNav === 'settings' },
+        { href: '/features', label: 'Features', active: activeNav === 'features' },
         { href: '/interviews/new', label: 'New interview', active: activeNav === 'new' },
+        { href: '/settings', label: 'Settings', active: activeNav === 'settings' },
       ]
     : [
         { href: '/features', label: 'Features', active: activeNav === 'features' },
