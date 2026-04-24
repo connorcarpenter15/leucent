@@ -32,7 +32,7 @@ export default async function ReplayPage({ params }: { params: Promise<{ id: str
   return (
     <ReplayClient
       title={iv.title}
-      candidateName={iv.candidateName}
+      candidateName={iv.candidateName ?? iv.candidateEmail ?? 'Guest'}
       hasKey={Boolean(iv.replayS3Key)}
       events={events}
     />

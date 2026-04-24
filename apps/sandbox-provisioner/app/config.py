@@ -55,9 +55,24 @@ class Settings(BaseSettings):
     readiness_max_delay: float = 5.0
 
     bind_host: str = "0.0.0.0"
-    bind_port: int = 6000
+    # NOTE: avoid 6000 — it's on the WHATWG Fetch "bad ports" blocklist
+    # (historical X11 port), so Node's built-in fetch (undici) refuses to
+    # connect with `TypeError: fetch failed` / cause "bad port".
+    bind_port: int = 6500
 
 
 @lru_cache(maxsize=1)
 def get_settings() -> Settings:
     return Settings()
+
+
+def resolve_sandbox_image(template: str | None, default_image: str) -> str:
+    """Maps allowlisted template keys to Docker images. Unknown keys fall back."""
+    mapping: dict[str, str] = {
+        "nodejs": default_image,
+        "python_ds": default_image,
+        "rust": default_image,
+    }
+    if not template:
+        return default_image
+    return mapping.get(template, default_image)

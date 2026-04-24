@@ -47,12 +47,14 @@ export function InterviewerConsole({
   candidateName,
   status: initialStatus,
   initialConstraints,
+  initialAutoStart = false,
 }: {
   interviewId: string;
   title: string;
-  candidateName: string;
+  candidateName: string | null;
   status: string;
   initialConstraints: Constraint[];
+  initialAutoStart?: boolean;
 }) {
   const router = useRouter();
   const { token, error: tokenError } = useRealtimeToken(interviewId);
@@ -68,6 +70,30 @@ export function InterviewerConsole({
   const [aiStreams, setAiStreams] = useState<Record<string, AiStream>>({});
 
   const [ending, setEnding] = useState(false);
+  const [starting, setStarting] = useState(false);
+  const autoStartedRef = useRef(false);
+
+  const startSession = useCallback(async () => {
+    if (starting || status !== 'scheduled') return;
+    setStarting(true);
+    try {
+      const res = await fetch(`/api/interviews/${interviewId}/start`, { method: 'POST' });
+      if (!res.ok) throw new Error(await res.text());
+      setStatus('live');
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+      alert(`Failed to start session: ${(err as Error).message}`);
+    } finally {
+      setStarting(false);
+    }
+  }, [interviewId, router, starting, status]);
+
+  useEffect(() => {
+    if (!initialAutoStart || autoStartedRef.current || status !== 'scheduled') return;
+    autoStartedRef.current = true;
+    void startSession();
+  }, [initialAutoStart, status, startSession]);
 
   const handleEvent = useCallback((raw: unknown) => {
     if (!raw || typeof raw !== 'object') return;
@@ -202,7 +228,9 @@ export function InterviewerConsole({
           <Logo size="sm" />
           <span className="hidden h-4 w-px bg-surface-700 sm:inline-block" />
           <span className="text-sm font-semibold text-surface-50">{title}</span>
-          <span className="text-xs text-surface-500">candidate: {candidateName}</span>
+          <span className="text-xs text-surface-500">
+            candidate: {candidateName?.trim() || 'Not set yet'}
+          </span>
           <Badge tone={statusTone} dot>
             {status}
           </Badge>
@@ -210,8 +238,30 @@ export function InterviewerConsole({
             {connLabel}
           </Badge>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-end gap-2">
           <Badge tone="accent">Interviewer console</Badge>
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={async () => {
+              try {
+                const res = await fetch(`/api/interviews/${interviewId}/invite-link`);
+                if (!res.ok) throw new Error(await res.text());
+                const data = (await res.json()) as { joinUrl: string };
+                await navigator.clipboard.writeText(data.joinUrl);
+              } catch (err) {
+                alert(`Could not copy link: ${(err as Error).message}`);
+              }
+            }}
+          >
+            Copy join link
+          </Button>
+          {status === 'scheduled' && (
+            <Button type="button" size="sm" onClick={() => void startSession()} disabled={starting}>
+              {starting ? 'Starting…' : 'Start session'}
+            </Button>
+          )}
           <Button
             variant="danger"
             size="sm"

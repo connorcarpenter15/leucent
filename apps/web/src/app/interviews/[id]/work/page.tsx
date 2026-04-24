@@ -49,5 +49,5 @@ export default async function CandidateWorkspacePage({
     );
   }
 
-  return <CandidateWorkspace interviewId={id} title={iv.title} />;
+  return <CandidateWorkspace interviewId={id} title={iv.title} initialStatus={iv.status} />;
 }

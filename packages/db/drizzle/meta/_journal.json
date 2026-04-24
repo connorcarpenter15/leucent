@@ -8,6 +8,20 @@
       "when": 1776725820238,
       "tag": "0000_init",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1776986481633,
+      "tag": "0001_meet_style_interview",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1776986499186,
+      "tag": "0002_invite_url_token",
+      "breakpoints": true
     }
   ]
 }

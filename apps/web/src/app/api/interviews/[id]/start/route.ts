@@ -37,7 +37,11 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
 
   let sandbox: Awaited<ReturnType<typeof createSandbox>>;
   try {
-    sandbox = await createSandbox({ interviewId: id, organizationId: orgId });
+    sandbox = await createSandbox({
+      interviewId: id,
+      organizationId: orgId,
+      sandboxTemplate: iv.sandboxTemplate ?? 'nodejs',
+    });
   } catch (err) {
     await db()
       .update(schema.interview)

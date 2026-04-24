@@ -6,6 +6,7 @@ import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
 import { SiteShell } from '@/components/SiteShell';
+import { DeleteInterviewButton } from '@/components/DeleteInterviewButton';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Dashboard' };
@@ -76,14 +77,19 @@ export default async function DashboardPage() {
                 <CardBody className="text-sm text-surface-300">
                   <div className="flex flex-col gap-1">
                     <span>
-                      Candidate: <span className="text-surface-100">{iv.candidateName}</span>
+                      Candidate:{' '}
+                      <span className="text-surface-100">
+                        {iv.candidateName?.trim() || iv.candidateEmail?.trim() || '—'}
+                      </span>
                     </span>
-                    <span className="text-surface-400">{iv.candidateEmail}</span>
+                    {iv.candidateEmail?.trim() ? (
+                      <span className="text-surface-400">{iv.candidateEmail}</span>
+                    ) : null}
                     <span className="text-xs text-surface-500">
                       Created {new Date(iv.createdAt).toLocaleString()}
                     </span>
                   </div>
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-4 flex flex-wrap items-center gap-2">
                     <Link href={`/interviews/${iv.id}/conduct`}>
                       <Button size="sm">Open console</Button>
                     </Link>
@@ -94,6 +100,11 @@ export default async function DashboardPage() {
                         </Button>
                       </Link>
                     )}
+                    <DeleteInterviewButton
+                      interviewId={iv.id}
+                      title={iv.title}
+                      status={iv.status}
+                    />
                   </div>
                 </CardBody>
               </Card>

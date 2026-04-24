@@ -1,12 +1,11 @@
 import { redirect } from 'next/navigation';
-import { Badge, Card, CardBody, CardHeader, CardTitle, Container } from '@leucent/ui';
+import { Badge, Card, CardBody, Container } from '@leucent/ui';
 import { SiteShell } from '@/components/SiteShell';
 import { getSession } from '@/lib/session';
-import { NewInterviewForm } from './new-interview-form';
+import { InterviewCreationPanel } from './interview-creation-panel';
 
 export const metadata = { title: 'New interview' };
 
-// getSession() reads the session via Neon Auth, which requires dynamic rendering.
 export const dynamic = 'force-dynamic';
 
 export default async function NewInterviewPage() {
@@ -16,27 +15,19 @@ export default async function NewInterviewPage() {
   return (
     <SiteShell activeNav="new">
       <Container size="md" className="py-12">
-        <div className="mb-6 flex items-end justify-between gap-4">
-          <div>
-            <Badge tone="accent">Schedule</Badge>
-            <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-surface-50">
-              New interview
-            </h1>
-            <p className="mt-1 text-sm text-surface-400">
-              Leucent will provision a Neon branch and mint a single-use candidate join link as soon
-              as you submit.
-            </p>
-          </div>
+        <div className="mb-8">
+          <Badge tone="accent">Venue</Badge>
+          <h1 className="mt-3 font-display text-3xl font-semibold tracking-tight text-surface-50">
+            New interview room
+          </h1>
+          <p className="mt-2 max-w-xl text-sm text-surface-400">
+            Leucent is the venue: generate a persistent join link and use your normal calendar or
+            ATS for scheduling. Start instantly when you&apos;re already on a call, or create a link
+            to share for later.
+          </p>
         </div>
 
-        <Card tone="raised">
-          <CardHeader>
-            <CardTitle>Interview details</CardTitle>
-          </CardHeader>
-          <CardBody>
-            <NewInterviewForm />
-          </CardBody>
-        </Card>
+        <InterviewCreationPanel />
       </Container>
     </SiteShell>
   );

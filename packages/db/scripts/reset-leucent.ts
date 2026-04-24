@@ -32,6 +32,10 @@
  */
 import postgres from 'postgres';
 
+import { loadEnvForDbScripts } from './load-env';
+
+loadEnvForDbScripts();
+
 // Order matters: dependents before parents so CASCADE has less to do.
 const LEUCENT_TABLES = [
   'ai_context_chunk',
