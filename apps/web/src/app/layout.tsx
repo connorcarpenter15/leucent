@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Analytics } from '@vercel/analytics/react';
 import { Inter, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`dark ${inter.variable} ${mono.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-surface-950 font-sans antialiased" suppressHydrationWarning>
         {children}
+        <Analytics />
       </body>
     </html>
   );
