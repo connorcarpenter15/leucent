@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
@@ -32,12 +32,30 @@ export default async function ConductPage({
     .select()
     .from(schema.interviewerConstraint)
     .where(eq(schema.interviewerConstraint.interviewId, id));
+  const [participant] = await db()
+    .select()
+    .from(schema.interviewParticipant)
+    .where(eq(schema.interviewParticipant.interviewId, id))
+    .orderBy(desc(schema.interviewParticipant.joinedAt))
+    .limit(1);
+  const [invite] = await db()
+    .select()
+    .from(schema.interviewInvite)
+    .where(eq(schema.interviewInvite.interviewId, id))
+    .orderBy(desc(schema.interviewInvite.createdAt))
+    .limit(1);
+  const candidateName =
+    participant?.displayName ??
+    participant?.email ??
+    invite?.recipientName ??
+    invite?.recipientEmail ??
+    null;
 
   return (
     <InterviewerConsole
       interviewId={id}
       title={iv.title}
-      candidateName={iv.candidateName}
+      candidateName={candidateName}
       status={iv.status}
       initialAutoStart={sp.instant === '1'}
       initialConstraints={constraints.map((c) => ({

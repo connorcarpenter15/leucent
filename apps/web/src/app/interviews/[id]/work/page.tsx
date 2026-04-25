@@ -1,23 +1,23 @@
 import { redirect } from 'next/navigation';
-import { cookies } from 'next/headers';
 import { eq } from 'drizzle-orm';
 import { Logo } from '@leucent/ui';
 import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
+import { getValidParticipantSession } from '@/lib/interview-participants';
 import { CandidateWorkspace } from './workspace-client';
 
 export const dynamic = 'force-dynamic';
 
-/** The candidate's IDE + canvas + AI chat. Only renders if the candidate
- * cookie set by /join/{token} is present. */
+/** The candidate's IDE + canvas + AI chat. Only renders if /join/{token}
+ * created a scoped participant session for this interview. */
 export default async function CandidateWorkspacePage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const cookie = (await cookies()).get(`leucent_candidate_${id}`);
-  if (!cookie?.value) {
+  const participant = await getValidParticipantSession(id);
+  if (!participant) {
     return (
       <main className="mx-auto flex min-h-screen max-w-md flex-col items-center justify-center px-6 text-center">
         <div className="rounded-2xl border border-surface-800 bg-surface-900/60 p-8">
@@ -49,5 +49,12 @@ export default async function CandidateWorkspacePage({
     );
   }
 
-  return <CandidateWorkspace interviewId={id} title={iv.title} initialStatus={iv.status} />;
+  return (
+    <CandidateWorkspace
+      interviewId={id}
+      title={iv.title}
+      initialStatus={iv.status}
+      canUpgrade={!participant.userId}
+    />
+  );
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { and, desc, eq, gt } from 'drizzle-orm';
+import { and, desc, eq, gt, isNull } from 'drizzle-orm';
 import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
@@ -23,6 +23,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
       and(
         eq(schema.interviewInvite.interviewId, id),
         gt(schema.interviewInvite.expiresAt, new Date()),
+        isNull(schema.interviewInvite.revokedAt),
       ),
     )
     .orderBy(desc(schema.interviewInvite.createdAt))

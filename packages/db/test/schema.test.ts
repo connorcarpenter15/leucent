@@ -3,12 +3,17 @@ import { getTableConfig } from 'drizzle-orm/pg-core';
 import { describe, expect, it } from 'vitest';
 import {
   aiContextChunk,
+  candidateProfile,
   interview,
   interviewEvent,
   interviewInvite,
+  interviewParticipant,
+  interviewParticipantSession,
   interviewStatus,
   interviewerConstraint,
   organization,
+  participantAuthMethod,
+  participantIdentityMode,
   user,
 } from '../src/schema';
 
@@ -33,8 +38,11 @@ describe('Drizzle schema', () => {
   });
 
   it('exposes Leucent domain tables under expected names', () => {
+    expect(getTableName(candidateProfile)).toBe('candidate_profile');
     expect(getTableName(interview)).toBe('interview');
     expect(getTableName(interviewInvite)).toBe('interview_invite');
+    expect(getTableName(interviewParticipant)).toBe('interview_participant');
+    expect(getTableName(interviewParticipantSession)).toBe('interview_participant_session');
     expect(getTableName(interviewEvent)).toBe('interview_event');
     expect(getTableName(interviewerConstraint)).toBe('interviewer_constraint');
     expect(getTableName(aiContextChunk)).toBe('ai_context_chunk');
@@ -44,14 +52,17 @@ describe('Drizzle schema', () => {
     expect(interviewStatus.enumValues).toEqual(['scheduled', 'live', 'completed', 'expired']);
   });
 
+  it('declares participant identity enums with expected values', () => {
+    expect(participantIdentityMode.enumValues).toEqual(['guest', 'registered']);
+    expect(participantAuthMethod.enumValues).toEqual(['session', 'magic_link', 'otp']);
+  });
+
   it('models interview columns the rest of the system relies on', () => {
     const cols = getTableColumns(interview);
     for (const required of [
       'id',
       'organizationId',
       'interviewerUserId',
-      'candidateName',
-      'candidateEmail',
       'title',
       'sandboxTemplate',
       'status',
@@ -72,8 +83,47 @@ describe('Drizzle schema', () => {
     const cols = getTableColumns(interviewInvite);
     expect(cols).toHaveProperty('tokenHash');
     expect(cols).toHaveProperty('urlToken');
+    expect(cols).toHaveProperty('recipientName');
+    expect(cols).toHaveProperty('recipientEmail');
+    expect(cols).toHaveProperty('maxUses');
+    expect(cols).toHaveProperty('revokedAt');
     expect((cols.tokenHash as { name: string }).name).toBe('token_hash');
     expect((cols.urlToken as { name: string }).name).toBe('url_token');
+  });
+
+  it('models candidate profiles and interview participant bridge rows', () => {
+    const profileCols = getTableColumns(candidateProfile);
+    expect(profileCols).toHaveProperty('userId');
+    expect(profileCols).toHaveProperty('displayName');
+
+    const participantCols = getTableColumns(interviewParticipant);
+    for (const required of [
+      'id',
+      'interviewId',
+      'userId',
+      'email',
+      'displayName',
+      'identityMode',
+      'authMethod',
+      'joinedAt',
+      'lastSeenAt',
+      'expiresAt',
+      'revokedAt',
+      'upgradedAt',
+    ]) {
+      expect(participantCols, `interview_participant.${required}`).toHaveProperty(required);
+    }
+
+    const sessionCols = getTableColumns(interviewParticipantSession);
+    for (const required of [
+      'participantId',
+      'sessionTokenHash',
+      'expiresAt',
+      'revokedAt',
+      'lastUsedAt',
+    ]) {
+      expect(sessionCols, `interview_participant_session.${required}`).toHaveProperty(required);
+    }
   });
 
   it('models event log columns required for replay (kind, actor, payload, ts, seq)', () => {

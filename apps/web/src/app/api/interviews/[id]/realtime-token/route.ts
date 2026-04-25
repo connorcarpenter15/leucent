@@ -1,15 +1,15 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { eq } from 'drizzle-orm';
 import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
 import { mintRealtimeToken } from '@/lib/realtime-token';
+import { getValidParticipantSession } from '@/lib/interview-participants';
 
 /**
  * Mints a short-lived JWT for the realtime server. Authorization rules:
  * - Interviewer: must own the interview (matching org).
- * - Candidate: must present the candidate session cookie set by /join/{token}.
+ * - Candidate: must present a valid participant session created by /join/{token}.
  */
 export async function POST(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -26,12 +26,13 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
     return NextResponse.json({ token });
   }
 
-  const candidateCookie = (await cookies()).get(`leucent_candidate_${id}`);
-  if (candidateCookie?.value) {
+  const participant = await getValidParticipantSession(id);
+  if (participant) {
     const token = await mintRealtimeToken({
-      subject: candidateCookie.value,
+      subject: participant.participantId,
       interviewId: id,
       role: 'candidate',
+      userId: participant.userId,
     });
     return NextResponse.json({ token });
   }

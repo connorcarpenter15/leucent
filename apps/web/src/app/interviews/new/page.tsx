@@ -11,6 +11,7 @@ export const dynamic = 'force-dynamic';
 export default async function NewInterviewPage() {
   const session = await getSession();
   if (!session?.user) redirect('/login');
+  if (!session.session.activeOrganizationId) redirect('/work/signup?next=/interviews/new');
 
   return (
     <SiteShell activeNav="new">

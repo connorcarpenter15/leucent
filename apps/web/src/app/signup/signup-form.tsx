@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Button, Field, Input } from '@leucent/ui';
 import { PasswordInput } from '@/components/PasswordInput';
 import { authClient, signUp } from '@/lib/auth-client';
@@ -15,8 +15,18 @@ function slugify(input: string): string {
     .slice(0, 40);
 }
 
+function safeNextPath(value: string | null) {
+  if (!value?.startsWith('/') || value.startsWith('//')) return null;
+  return value;
+}
+
 export function SignupForm() {
+  return <WorkSignupForm />;
+}
+
+export function WorkSignupForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -90,7 +100,7 @@ export function SignupForm() {
         );
         return;
       }
-      router.push('/dashboard');
+      router.push(safeNextPath(searchParams.get('next')) ?? '/dashboard');
     } catch (caught) {
       setError(
         caught instanceof Error
@@ -169,6 +179,130 @@ export function SignupForm() {
       )}
       <Button type="submit" disabled={loading} size="lg">
         {loading ? 'Creating…' : 'Create account'}
+      </Button>
+    </form>
+  );
+}
+
+export function CandidateSignupForm() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const [confirmError, setConfirmError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setError(null);
+    setConfirmError(null);
+
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+    if (password !== confirmPassword) {
+      setConfirmError('Passwords do not match.');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const userResult = await signUp.email({
+        name: name.trim(),
+        email: email.trim(),
+        password,
+      });
+      if (userResult.error) {
+        setError(
+          messageFromAuthError(
+            userResult.error,
+            'Could not create your account. Check your details and try again.',
+          ),
+        );
+        return;
+      }
+
+      const profileRes = await fetch('/api/candidate/profile', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ displayName: name.trim() || undefined }),
+      });
+      if (!profileRes.ok) {
+        setError((await profileRes.text()) || 'Account created, but profile setup failed.');
+        return;
+      }
+
+      router.push(safeNextPath(searchParams.get('next')) ?? '/candidate');
+    } catch (caught) {
+      setError(
+        caught instanceof Error
+          ? caught.message
+          : 'Something went wrong. Check your connection and try again.',
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit} noValidate>
+      <Field label="Your name">
+        <Input required value={name} onChange={(e) => setName(e.target.value)} name="name" />
+      </Field>
+      <Field label="Email">
+        <Input
+          type="email"
+          autoComplete="email"
+          required
+          name="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </Field>
+      <Field label="Password" hint="At least 8 characters.">
+        <PasswordInput
+          name="new-password"
+          autoComplete="new-password"
+          required
+          minLength={8}
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            if (confirmError) setConfirmError(null);
+          }}
+        />
+      </Field>
+      <Field
+        label="Confirm password"
+        error={confirmError}
+        hint={!confirmError ? 'Re-enter your password to confirm.' : undefined}
+      >
+        <PasswordInput
+          name="password-confirm"
+          autoComplete="new-password"
+          required
+          minLength={8}
+          value={confirmPassword}
+          onChange={(e) => {
+            setConfirmPassword(e.target.value);
+            if (confirmError) setConfirmError(null);
+          }}
+        />
+      </Field>
+      {error && (
+        <div
+          role="alert"
+          className="rounded-md border border-red-700/60 bg-red-900/30 px-3 py-2 text-sm text-red-200"
+        >
+          {error}
+        </div>
+      )}
+      <Button type="submit" disabled={loading} size="lg">
+        {loading ? 'Creating...' : 'Create candidate account'}
       </Button>
     </form>
   );

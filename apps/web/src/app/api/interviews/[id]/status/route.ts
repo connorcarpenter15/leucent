@@ -1,13 +1,13 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
 import { eq } from 'drizzle-orm';
 import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
+import { getValidParticipantSession } from '@/lib/interview-participants';
 
 /**
  * Lightweight status for waiting-room polling. Caller must be either the owning
- * org (interviewer) or hold the scoped candidate cookie for this interview.
+ * org (interviewer) or hold a valid scoped participant session.
  */
 export async function GET(_req: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -19,8 +19,8 @@ export async function GET(_req: Request, { params }: { params: Promise<{ id: str
   const orgId = session?.session.activeOrganizationId;
   const interviewerOk = session?.user && orgId && iv.organizationId === orgId ? true : false;
 
-  const cookie = (await cookies()).get(`leucent_candidate_${id}`);
-  const candidateOk = Boolean(cookie?.value);
+  const participant = await getValidParticipantSession(id);
+  const candidateOk = Boolean(participant);
 
   if (!interviewerOk && !candidateOk) {
     return new NextResponse('Unauthorized', { status: 401 });

@@ -5,6 +5,7 @@ import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
 import { endRealtimeSession } from '@/lib/realtime-client';
 import { destroySandbox } from '@/lib/sandbox-client';
+import { revokeParticipantSessionsForInterview } from '@/lib/interview-participants';
 
 /**
  * Explicitly ends an interview. This is the canonical close path required by
@@ -41,6 +42,7 @@ export async function POST(_req: Request, { params }: { params: Promise<{ id: st
     .update(schema.interview)
     .set({ status: 'completed', endedAt: new Date(), updatedAt: new Date() })
     .where(eq(schema.interview.id, id));
+  await revokeParticipantSessionsForInterview(id);
 
   return NextResponse.json({ status: 'completed' });
 }

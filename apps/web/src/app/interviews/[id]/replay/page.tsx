@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { eq } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { schema } from '@leucent/db';
 import { db } from '@/lib/db';
 import { getSession } from '@/lib/session';
@@ -28,11 +28,29 @@ export default async function ReplayPage({ params }: { params: Promise<{ id: str
       console.warn('replay fetch failed', err);
     }
   }
+  const [participant] = await db()
+    .select()
+    .from(schema.interviewParticipant)
+    .where(eq(schema.interviewParticipant.interviewId, id))
+    .orderBy(desc(schema.interviewParticipant.joinedAt))
+    .limit(1);
+  const [invite] = await db()
+    .select()
+    .from(schema.interviewInvite)
+    .where(eq(schema.interviewInvite.interviewId, id))
+    .orderBy(desc(schema.interviewInvite.createdAt))
+    .limit(1);
+  const candidateName =
+    participant?.displayName ??
+    participant?.email ??
+    invite?.recipientName ??
+    invite?.recipientEmail ??
+    'Guest';
 
   return (
     <ReplayClient
       title={iv.title}
-      candidateName={iv.candidateName ?? iv.candidateEmail ?? 'Guest'}
+      candidateName={candidateName}
       hasKey={Boolean(iv.replayS3Key)}
       events={events}
     />

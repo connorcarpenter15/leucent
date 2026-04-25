@@ -22,6 +22,20 @@
       "when": 1776986499186,
       "tag": "0002_invite_url_token",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1777147800000,
+      "tag": "0003_decouple_candidate_participants",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1777147860000,
+      "tag": "0004_drop_legacy_interview_candidate_fields",
+      "breakpoints": true
     }
   ]
 }

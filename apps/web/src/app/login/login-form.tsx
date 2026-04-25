@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, type FormEvent } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Button, Field, Input } from '@leucent/ui';
 import { PasswordInput } from '@/components/PasswordInput';
@@ -9,8 +9,23 @@ import { signIn } from '@/lib/auth-client';
 import { messageFromAuthError } from '@/lib/auth-errors';
 import { ensureActiveOrganization } from '@/lib/ensure-active-organization';
 
+function safeNextPath(value: string | null) {
+  if (!value?.startsWith('/') || value.startsWith('//')) return null;
+  return value;
+}
+
+function isWorkPath(path: string | null) {
+  return Boolean(
+    path?.startsWith('/dashboard') ||
+    path?.startsWith('/settings') ||
+    path?.startsWith('/interviews/new') ||
+    path?.startsWith('/work'),
+  );
+}
+
 export function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -31,12 +46,24 @@ export function LoginForm() {
         );
         return;
       }
-      const orgGate = await ensureActiveOrganization();
-      if (!orgGate.ok) {
-        setError(orgGate.message);
+      const next = safeNextPath(searchParams.get('next'));
+      const intent = searchParams.get('intent');
+      if (intent === 'work' || isWorkPath(next)) {
+        const orgGate = await ensureActiveOrganization();
+        if (!orgGate.ok) {
+          setError(orgGate.message);
+          return;
+        }
+        router.push(next ?? '/dashboard');
         return;
       }
-      router.push('/dashboard');
+      if (intent === 'candidate' || next?.startsWith('/join') || next?.startsWith('/candidate')) {
+        router.push(next ?? '/candidate');
+        return;
+      }
+
+      const orgGate = await ensureActiveOrganization();
+      router.push(orgGate.ok ? '/dashboard' : '/candidate');
     } catch (caught) {
       setError(
         caught instanceof Error
@@ -83,7 +110,7 @@ export function LoginForm() {
       <p className="pt-1 text-center text-xs text-surface-500">
         No account yet?{' '}
         <Link href="/signup" className="text-accent-300 hover:text-accent-200">
-          Create an organization
+          Choose account type
         </Link>
         .
       </p>

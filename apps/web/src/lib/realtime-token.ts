@@ -18,10 +18,15 @@ export async function mintRealtimeToken(args: {
   subject: string;
   interviewId: string;
   role: RealtimeRole;
+  userId?: string | null;
   ttlSeconds?: number;
 }): Promise<string> {
   const ttl = args.ttlSeconds ?? 60 * 60;
-  return await new SignJWT({ interviewId: args.interviewId, role: args.role })
+  return await new SignJWT({
+    interviewId: args.interviewId,
+    role: args.role,
+    ...(args.userId ? { userId: args.userId } : {}),
+  })
     .setProtectedHeader({ alg: 'HS256' })
     .setIssuer(ISSUER)
     .setAudience(AUDIENCE)
@@ -40,6 +45,7 @@ export async function verifyRealtimeToken(token: string) {
     sub: string;
     interviewId: string;
     role: RealtimeRole;
+    userId?: string;
     iat: number;
     exp: number;
   };

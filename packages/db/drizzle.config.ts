@@ -24,8 +24,11 @@ if (!url) {
  * added.
  */
 const LEUCENT_OWNED_TABLES = [
+  'candidate_profile',
   'interview',
   'interview_invite',
+  'interview_participant',
+  'interview_participant_session',
   'interview_event',
   'interviewer_constraint',
   'ai_context_chunk',

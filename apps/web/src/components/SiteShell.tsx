@@ -25,7 +25,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
   {
     heading: 'Company',
     links: [
-      { href: '/signup', label: 'Get a demo' },
+      { href: '/work/signup', label: 'Get a demo' },
       { href: 'mailto:hello@leucent.dev', label: 'Contact', external: true },
     ],
   },
@@ -34,7 +34,7 @@ const FOOTER_COLUMNS: FooterColumn[] = [
 type SiteShellProps = {
   children: ReactNode;
   /** Highlights the active link in the header. */
-  activeNav?: 'dashboard' | 'new' | 'home' | 'settings' | 'features';
+  activeNav?: 'dashboard' | 'new' | 'home' | 'settings' | 'features' | 'candidate';
   /** Drop the footer (used by full-screen workspace pages that opt-in). */
   hideFooter?: boolean;
   /** Render a minimal logo-only header (used on auth pages). */
@@ -55,14 +55,22 @@ export async function SiteShell({
 }: SiteShellProps) {
   const session = await getSession();
   const signedIn = Boolean(session?.user);
+  const hasActiveOrg = Boolean(session?.session.activeOrganizationId);
 
   const links: NavLink[] = signedIn
-    ? [
-        { href: '/dashboard', label: 'Dashboard', active: activeNav === 'dashboard' },
-        { href: '/features', label: 'Features', active: activeNav === 'features' },
-        { href: '/interviews/new', label: 'New interview', active: activeNav === 'new' },
-        { href: '/settings', label: 'Settings', active: activeNav === 'settings' },
-      ]
+    ? hasActiveOrg
+      ? [
+          { href: '/dashboard', label: 'Dashboard', active: activeNav === 'dashboard' },
+          { href: '/candidate', label: 'Candidate', active: activeNav === 'candidate' },
+          { href: '/features', label: 'Features', active: activeNav === 'features' },
+          { href: '/interviews/new', label: 'New interview', active: activeNav === 'new' },
+          { href: '/settings', label: 'Settings', active: activeNav === 'settings' },
+        ]
+      : [
+          { href: '/candidate', label: 'Candidate', active: activeNav === 'candidate' },
+          { href: '/work/signup', label: 'Create organization' },
+          { href: '/features', label: 'Features', active: activeNav === 'features' },
+        ]
     : [
         { href: '/features', label: 'Features', active: activeNav === 'features' },
         { href: '/#how-it-works', label: 'How it works' },
@@ -81,7 +89,7 @@ export async function SiteShell({
           Sign in
         </Button>
       </Link>
-      <Link href="/signup">
+      <Link href="/work/signup">
         <Button size="sm">Get started</Button>
       </Link>
     </div>

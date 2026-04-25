@@ -8,6 +8,7 @@ import {
   uuid,
   pgEnum,
   index,
+  uniqueIndex,
 } from 'drizzle-orm/pg-core';
 
 /* ===================================================================
@@ -63,6 +64,24 @@ export const interviewStatus = pgEnum('interview_status', [
   'expired',
 ]);
 
+export const participantIdentityMode = pgEnum('participant_identity_mode', ['guest', 'registered']);
+
+export const participantAuthMethod = pgEnum('participant_auth_method', [
+  'session',
+  'magic_link',
+  'otp',
+]);
+
+export const candidateProfile = pgTable('candidate_profile', {
+  userId: uuid('user_id')
+    .primaryKey()
+    .references(() => user.id, { onDelete: 'cascade' }),
+  displayName: text('display_name'),
+  headline: text('headline'),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
 export const interview = pgTable(
   'interview',
   {
@@ -73,8 +92,6 @@ export const interview = pgTable(
     interviewerUserId: uuid('interviewer_user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'restrict' }),
-    candidateName: text('candidate_name'),
-    candidateEmail: text('candidate_email'),
     title: text('title').notNull(),
     /** Provisioner template key (allowlisted server-side), e.g. nodejs, python_ds, rust */
     sandboxTemplate: text('sandbox_template').notNull().default('nodejs'),
@@ -105,12 +122,60 @@ export const interviewInvite = pgTable(
     tokenHash: text('token_hash').notNull().unique(),
     /** Raw `/join/{token}` segment; server-only, enables reconstructing join URLs for interviewers */
     urlToken: text('url_token').unique(),
+    recipientName: text('recipient_name'),
+    recipientEmail: text('recipient_email'),
+    maxUses: integer('max_uses'),
     expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
     consumedAt: timestamp('consumed_at', { withTimezone: true }),
+    revokedAt: timestamp('revoked_at', { withTimezone: true }),
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
   },
   (t) => ({
     interviewIdx: index('invite_interview_idx').on(t.interviewId),
+  }),
+);
+
+export const interviewParticipant = pgTable(
+  'interview_participant',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    interviewId: uuid('interview_id')
+      .notNull()
+      .references(() => interview.id, { onDelete: 'cascade' }),
+    userId: uuid('user_id').references(() => user.id, { onDelete: 'set null' }),
+    email: text('email'),
+    displayName: text('display_name'),
+    identityMode: participantIdentityMode('identity_mode').notNull(),
+    authMethod: participantAuthMethod('auth_method').notNull(),
+    joinedAt: timestamp('joined_at', { withTimezone: true }).notNull().defaultNow(),
+    lastSeenAt: timestamp('last_seen_at', { withTimezone: true }),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    revokedAt: timestamp('revoked_at', { withTimezone: true }),
+    upgradedAt: timestamp('upgraded_at', { withTimezone: true }),
+  },
+  (t) => ({
+    interviewIdx: index('participant_interview_idx').on(t.interviewId),
+    userIdx: index('participant_user_idx').on(t.userId),
+    emailIdx: index('participant_email_idx').on(t.email),
+  }),
+);
+
+export const interviewParticipantSession = pgTable(
+  'interview_participant_session',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    participantId: uuid('participant_id')
+      .notNull()
+      .references(() => interviewParticipant.id, { onDelete: 'cascade' }),
+    sessionTokenHash: text('session_token_hash').notNull(),
+    expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
+    revokedAt: timestamp('revoked_at', { withTimezone: true }),
+    lastUsedAt: timestamp('last_used_at', { withTimezone: true }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => ({
+    participantIdx: index('participant_session_participant_idx').on(t.participantId),
+    tokenHashIdx: uniqueIndex('participant_session_token_hash_idx').on(t.sessionTokenHash),
   }),
 );
 
@@ -178,5 +243,8 @@ export const aiContextChunk = pgTable(
 export type Interview = typeof interview.$inferSelect;
 export type NewInterview = typeof interview.$inferInsert;
 export type InterviewInvite = typeof interviewInvite.$inferSelect;
+export type CandidateProfile = typeof candidateProfile.$inferSelect;
+export type InterviewParticipant = typeof interviewParticipant.$inferSelect;
+export type InterviewParticipantSession = typeof interviewParticipantSession.$inferSelect;
 export type InterviewEvent = typeof interviewEvent.$inferSelect;
 export type InterviewerConstraint = typeof interviewerConstraint.$inferSelect;

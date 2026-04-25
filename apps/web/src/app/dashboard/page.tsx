@@ -16,6 +16,8 @@ export default async function DashboardPage() {
   if (!session?.user) redirect('/login');
 
   const orgId = session.session.activeOrganizationId;
+  if (!orgId) redirect('/work/signup?next=/dashboard');
+
   const interviews = orgId
     ? await db()
         .select()
@@ -28,6 +30,30 @@ export default async function DashboardPage() {
   const live = interviews.filter((i) => i.status === 'live').length;
   const scheduled = interviews.filter((i) => i.status === 'scheduled').length;
   const completed = interviews.filter((i) => i.status === 'completed').length;
+  const interviewCards = await Promise.all(
+    interviews.map(async (iv) => {
+      const [participant] = await db()
+        .select()
+        .from(schema.interviewParticipant)
+        .where(eq(schema.interviewParticipant.interviewId, iv.id))
+        .orderBy(desc(schema.interviewParticipant.joinedAt))
+        .limit(1);
+      const [invite] = await db()
+        .select()
+        .from(schema.interviewInvite)
+        .where(eq(schema.interviewInvite.interviewId, iv.id))
+        .orderBy(desc(schema.interviewInvite.createdAt))
+        .limit(1);
+      const candidateName =
+        participant?.displayName?.trim() ||
+        participant?.email?.trim() ||
+        invite?.recipientName?.trim() ||
+        invite?.recipientEmail?.trim() ||
+        '—';
+      const candidateEmail = participant?.email?.trim() || invite?.recipientEmail?.trim();
+      return { interview: iv, candidateName, candidateEmail };
+    }),
+  );
 
   return (
     <SiteShell activeNav="dashboard">
@@ -68,7 +94,7 @@ export default async function DashboardPage() {
           </Card>
         ) : (
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {interviews.map((iv) => (
+            {interviewCards.map(({ interview: iv, candidateName, candidateEmail }) => (
               <Card key={iv.id} className="h-full">
                 <CardHeader>
                   <CardTitle>{iv.title}</CardTitle>
@@ -77,13 +103,10 @@ export default async function DashboardPage() {
                 <CardBody className="text-sm text-surface-300">
                   <div className="flex flex-col gap-1">
                     <span>
-                      Candidate:{' '}
-                      <span className="text-surface-100">
-                        {iv.candidateName?.trim() || iv.candidateEmail?.trim() || '—'}
-                      </span>
+                      Candidate: <span className="text-surface-100">{candidateName}</span>
                     </span>
-                    {iv.candidateEmail?.trim() ? (
-                      <span className="text-surface-400">{iv.candidateEmail}</span>
+                    {candidateEmail ? (
+                      <span className="text-surface-400">{candidateEmail}</span>
                     ) : null}
                     <span className="text-xs text-surface-500">
                       Created {new Date(iv.createdAt).toLocaleString()}

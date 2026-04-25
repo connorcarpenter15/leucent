@@ -1,7 +1,8 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
-import { Badge, Logo } from '@leucent/ui';
+import Link from 'next/link';
+import { Badge, Button, Logo } from '@leucent/ui';
 import { CodeEditor } from '@/components/CodeEditor';
 import { Canvas } from '@/components/Canvas';
 import { AiChatPanel } from '@/components/AiChatPanel';
@@ -12,10 +13,12 @@ export function CandidateWorkspace({
   interviewId,
   title,
   initialStatus,
+  canUpgrade,
 }: {
   interviewId: string;
   title: string;
   initialStatus: string;
+  canUpgrade: boolean;
 }) {
   const [sessionStatus, setSessionStatus] = useState(initialStatus);
 
@@ -43,13 +46,23 @@ export function CandidateWorkspace({
   }, [interviewId, sessionStatus]);
 
   if (sessionStatus === 'scheduled') {
-    return <WaitingRoom title={title} />;
+    return <WaitingRoom interviewId={interviewId} title={title} canUpgrade={canUpgrade} />;
   }
 
-  return <CandidateWorkspaceActive interviewId={interviewId} title={title} />;
+  return (
+    <CandidateWorkspaceActive interviewId={interviewId} title={title} canUpgrade={canUpgrade} />
+  );
 }
 
-function WaitingRoom({ title }: { title: string }) {
+function WaitingRoom({
+  interviewId,
+  title,
+  canUpgrade,
+}: {
+  interviewId: string;
+  title: string;
+  canUpgrade: boolean;
+}) {
   return (
     <div className="flex min-h-screen flex-col bg-surface-950 text-surface-100">
       <header className="relative z-10 border-b border-surface-800 bg-surface-925/90 px-4 py-3 backdrop-blur">
@@ -70,12 +83,25 @@ function WaitingRoom({ title }: { title: string }) {
           You can keep this tab open. When the interviewer starts the interview, your workspace will
           load automatically.
         </p>
+        {canUpgrade ? (
+          <Link href={`/interviews/${interviewId}/upgrade`} className="mt-6">
+            <Button variant="outline">Save to candidate account</Button>
+          </Link>
+        ) : null}
       </main>
     </div>
   );
 }
 
-function CandidateWorkspaceActive({ interviewId, title }: { interviewId: string; title: string }) {
+function CandidateWorkspaceActive({
+  interviewId,
+  title,
+  canUpgrade,
+}: {
+  interviewId: string;
+  title: string;
+  canUpgrade: boolean;
+}) {
   const { token, error: tokenError } = useRealtimeToken(interviewId);
   const { doc, provider, synced } = useYjsRoom(interviewId, token);
 
@@ -122,6 +148,14 @@ function CandidateWorkspaceActive({ interviewId, title }: { interviewId: string;
         </div>
         <div className="flex items-center gap-3 text-xs text-surface-400">
           <span className="hidden sm:inline">Candidate workspace</span>
+          {canUpgrade ? (
+            <Link
+              href={`/interviews/${interviewId}/upgrade`}
+              className="hidden rounded-md border border-surface-700 px-2 py-1 text-surface-100 hover:border-accent-500 hover:text-accent-200 sm:inline-flex"
+            >
+              Save to account
+            </Link>
+          ) : null}
           <Badge tone="accent">Live</Badge>
         </div>
       </header>

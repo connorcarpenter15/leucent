@@ -84,8 +84,6 @@ export async function POST(req: Request) {
       organizationId: orgId,
       interviewerUserId: session.user.id,
       title,
-      candidateName,
-      candidateEmail,
       status: 'scheduled',
       sandboxTemplate,
     })
@@ -98,6 +96,8 @@ export async function POST(req: Request) {
     interviewId: created.id,
     tokenHash: hash,
     urlToken: token,
+    recipientName: candidateName,
+    recipientEmail: candidateEmail,
     expiresAt,
   });
 

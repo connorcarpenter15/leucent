@@ -58,6 +58,24 @@ describe('mintRealtimeToken / verifyRealtimeToken', () => {
     expect(decoded.exp! - decoded.iat!).toBe(3600);
   });
 
+  it('can include a linked global user id while keeping the participant id as subject', async () => {
+    const { mintRealtimeToken, verifyRealtimeToken } = await import('../../src/lib/realtime-token');
+    const token = await mintRealtimeToken({
+      subject: 'participant_123',
+      interviewId: '11111111-2222-4333-8444-555555555555',
+      role: 'candidate',
+      userId: 'user_456',
+    });
+
+    const decoded = decodeJwt(token);
+    expect(decoded.sub).toBe('participant_123');
+    expect(decoded.userId).toBe('user_456');
+
+    const verified = await verifyRealtimeToken(token);
+    expect(verified.sub).toBe('participant_123');
+    expect(verified.userId).toBe('user_456');
+  });
+
   it('produces a token that fails verification under a different secret', async () => {
     const { mintRealtimeToken } = await import('../../src/lib/realtime-token');
     const { jwtVerify } = await import('jose');
